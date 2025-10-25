@@ -1,10 +1,10 @@
 Attribute VB_Name = "ModuleTypes"
-' ===== ModuleTypes - ИСПРАВЛЕННАЯ ВЕРСИЯ БЕЗ КОНФЛИКТОВ =====
+' ===== ModuleTypes - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ =====
 Option Explicit
 
-' ===== ОСНОВНЫЕ ТИПЫ ДАННЫХ СИСТЕМЫ =====
+' ===== пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ =====
 
-' Конфигурация ангара (централизованное определение)
+' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
 Public Type WarehouseConfig
     sheetName As String
     UpperDataStart As Long
@@ -15,103 +15,104 @@ Public Type WarehouseConfig
     LowerHeaderRow As Long
     outputStartRow As Long
     RowNumbersToSkip As Variant
+    maxRows As Integer         ' РњР°РєСЃРёРјР°Р»СЊРЅРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ СЂСЏРґРѕРІ РІ Р°РЅРіР°СЂРµ
 End Type
 
-' Операция в ангаре
+' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 Public Type WarehouseOperation
-    warehouse As String  ' Номер ангара
-    row As String       ' Номер ряда
-    Letter As String    ' Буква ячейки
-    level As String     ' Уровень (ярус)
-    value As Double     ' Значение
-    Batch As String     ' Номер партии
-    ProductName As String ' Название товара (добавлено для совместимости)
+    warehouse As String  ' пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+    row As String       ' пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+    Letter As String    ' пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+    level As String     ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅ)
+    value As Double     ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    Batch As String     ' пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+    ProductName As String ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
 End Type
 
-' Местоположение в ангаре
+' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 Public Type WarehouseLocation
-    warehouse As String  ' Номер ангара
-    row As String       ' Номер ряда
-    Letter As String    ' Буква ячейки
-    level As String     ' Уровень (ярус)
+    warehouse As String  ' пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+    row As String       ' пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+    Letter As String    ' пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+    level As String     ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅ)
 End Type
 
-' Структуры для оптимизации заголовков
+' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 Public Type HeaderGroup
-    ProductName As String      ' Название товара
-    startRow As Integer       ' Начальный ряд группы
-    endRow As Integer         ' Конечный ряд группы
-    StartColumn As Integer    ' Начальный столбец (C, E, G...)
-    EndColumn As Integer      ' Конечный столбец (D, F, H...)
-    section As String         ' Секция (UPPER/LOWER)
-    IsConflict As Boolean     ' Флаг конфликта товаров
-    RowsInGroup As String     ' Список рядов для отладки (например: "3,5,6")
+    ProductName As String      ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+    startRow As Integer       ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+    endRow As Integer         ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+    StartColumn As Integer    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ (C, E, G...)
+    EndColumn As Integer      ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ (D, F, H...)
+    section As String         ' пїЅпїЅпїЅпїЅпїЅпїЅ (UPPER/LOWER)
+    IsConflict As Boolean     ' пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    RowsInGroup As String     ' пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: "3,5,6")
 End Type
 
-' Структура для анализа существующих заголовков
+' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 Public Type ExistingHeader
-    ProductName As String     ' Название товара
-    row As Integer           ' Номер ряда
-    StartColumn As Integer   ' Начальный столбец
-    EndColumn As Integer     ' Конечный столбец
-    section As String        ' Секция
-    IsConflict As Boolean    ' Есть ли конфликт (содержит "+")
+    ProductName As String     ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+    row As Integer           ' пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+    StartColumn As Integer   ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    EndColumn As Integer     ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    section As String        ' пїЅпїЅпїЅпїЅпїЅпїЅ
+    IsConflict As Boolean    ' пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ "+")
 End Type
 
-' ===== ДОПОЛНИТЕЛЬНЫЕ ТИПЫ ДЛЯ РАСШИРЕННОГО ФУНКЦИОНАЛА =====
+' ===== пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ =====
 
-' Информация о товаре (для модуля ProductInfo)
+' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ ProductInfo)
 Public Type ProductInfo
     ProductName As String
-    volumeGroup As String    ' Группа объема (1-7)
+    volumeGroup As String    ' пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (1-7)
     description As String
     standardQuantity As Double
 End Type
 
-' Информация о размещении (для умного размещения)
+' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
 Public Type PlacementResult
-    warehouse As String      ' Номер ангара
-    row As String           ' Номер ряда
-    Shelf As String         ' Буква стеллажа
-    level As String         ' Уровень
-    ProductName As String   ' Название товара
-    Batch As String         ' Партия
-    quantity As Double      ' Количество
-    IsPlaced As Boolean     ' Успешно размещено?
-    ErrorMessage As String  ' Сообщение об ошибке
-    cellAddress As String   ' Адрес ячейки (например: "D15")
+    warehouse As String      ' пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+    row As String           ' пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+    Shelf As String         ' пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    level As String         ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    ProductName As String   ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+    Batch As String         ' пїЅпїЅпїЅпїЅпїЅпїЅ
+    quantity As Double      ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    IsPlaced As Boolean     ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ?
+    ErrorMessage As String  ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+    cellAddress As String   ' пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: "D15")
 End Type
 
-' Конфигурация лимитов ангара
+' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 Public Type CapacityConfig
     warehouseNumber As String
-    maxItemsPerShelf As Integer    ' Максимум товаров на стеллаж
-    maxQuantityPerRow As Double    ' Максимум количества в ряду
-    isActive As Boolean           ' Активен ли ангар
-    Notes As String              ' Дополнительные заметки
+    maxItemsPerShelf As Integer    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    maxQuantityPerRow As Double    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ
+    isActive As Boolean           ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+    Notes As String              ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 End Type
 
-' Результат валидации
+' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 Public Type ValidationResult
-    IsValid As Boolean           ' Прошла ли валидация
-    ErrorMessage As String       ' Сообщение об ошибке
-    WarningMessage As String     ' Предупреждение
-    ValidatedData As String      ' Проверенные данные
+    IsValid As Boolean           ' пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    ErrorMessage As String       ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+    WarningMessage As String     ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    ValidatedData As String      ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 End Type
 
-' Статистика ангара
+' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 Public Type WarehouseStats
     warehouseNumber As String
-    totalItems As Integer        ' Общее количество позиций
-    totalQuantity As Double      ' Общее количество товара
-    occupiedShelves As Integer   ' Занятые стеллажи
-    emptyPositions As Integer    ' Свободные позиции
-    lastUpdateTime As Date       ' Время последнего обновления
+    totalItems As Integer        ' пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    totalQuantity As Double      ' пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+    occupiedShelves As Integer   ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    emptyPositions As Integer    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    lastUpdateTime As Date       ' пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 End Type
 
-' ===== ФУНКЦИИ ДЛЯ РАБОТЫ С ТИПАМИ =====
+' ===== пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ =====
 
-' Создает пустую операцию ангара
+' пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 Public Function CreateEmptyOperation() As WarehouseOperation
     Dim emptyOp As WarehouseOperation
     emptyOp.warehouse = ""
@@ -124,7 +125,7 @@ Public Function CreateEmptyOperation() As WarehouseOperation
     CreateEmptyOperation = emptyOp
 End Function
 
-' Создает пустой результат размещения
+' пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 Public Function CreateEmptyPlacement() As PlacementResult
     Dim emptyPlace As PlacementResult
     emptyPlace.warehouse = ""
@@ -140,7 +141,7 @@ Public Function CreateEmptyPlacement() As PlacementResult
     CreateEmptyPlacement = emptyPlace
 End Function
 
-' Создает пустую конфигурацию ангара
+' пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 Public Function CreateEmptyConfig() As WarehouseConfig
     Dim emptyConfig As WarehouseConfig
     emptyConfig.sheetName = ""
@@ -152,42 +153,43 @@ Public Function CreateEmptyConfig() As WarehouseConfig
     emptyConfig.LowerHeaderRow = 0
     emptyConfig.outputStartRow = 0
     emptyConfig.RowNumbersToSkip = Array()
+    emptyConfig.maxRows = 0
     CreateEmptyConfig = emptyConfig
 End Function
 
-' Проверяет, является ли операция валидной
+' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 Public Function IsValidOperation(op As WarehouseOperation) As Boolean
     IsValidOperation = (op.warehouse <> "" And op.row <> "" And _
                        op.Letter <> "" And op.level <> "" And _
                        op.value > 0 And op.Batch <> "")
 End Function
 
-' Форматирует операцию в читаемый вид
+' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ
 Public Function FormatOperation(op As WarehouseOperation) As String
-    FormatOperation = "Ангар " & op.warehouse & ", ряд " & op.row & _
-                     ", стеллаж " & op.Letter & ", уровень " & op.level & _
-                     " - " & op.ProductName & " (партия: " & op.Batch & _
-                     ", количество: " & op.value & ")"
+    FormatOperation = "пїЅпїЅпїЅпїЅпїЅ " & op.warehouse & ", пїЅпїЅпїЅ " & op.row & _
+                     ", пїЅпїЅпїЅпїЅпїЅпїЅпїЅ " & op.Letter & ", пїЅпїЅпїЅпїЅпїЅпїЅпїЅ " & op.level & _
+                     " - " & op.ProductName & " (пїЅпїЅпїЅпїЅпїЅпїЅ: " & op.Batch & _
+                     ", пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: " & op.value & ")"
 End Function
 
-' ===== КОНСТАНТЫ СИСТЕМЫ =====
+' ===== пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ =====
 
-' Поддерживаемые ангары
+' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 Public Const MIN_WAREHOUSE As Integer = 5
 Public Const MAX_WAREHOUSE As Integer = 12
 
-' Максимальные уровни стеллажей
+' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 Public Const MAX_SHELF_LEVEL As Integer = 3
 
-' Стандартные секции ангара
+' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 Public Const UPPER_SECTION As String = "UPPER"
 Public Const LOWER_SECTION As String = "LOWER"
 
-' Стандартные разделители
+' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 Public Const MAIN_DELIMITER As String = " - "
 Public Const LOCATION_DELIMITER As String = "-"
 
-' ===== ФУНКЦИИ ВАЛИДАЦИИ ТИПОВ =====
+' ===== пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ =====
 
 Public Function IsValidWarehouseNumber(warehouse As String) As Boolean
     Dim num As Integer
@@ -206,7 +208,7 @@ Public Function IsValidShelfLevel(level As String) As Boolean
 End Function
 
 Public Function IsValidBatchFormat(Batch As String) As Boolean
-    ' Партия должна начинаться с "пар" и содержать числа
-    IsValidBatchFormat = (Len(Batch) >= 4 And Left(LCase(Batch), 3) = "пар")
+    ' пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ "пїЅпїЅпїЅ" пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+    IsValidBatchFormat = (Len(Batch) >= 4 And Left(LCase(Batch), 3) = "пїЅпїЅпїЅ")
 End Function
 

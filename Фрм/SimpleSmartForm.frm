@@ -13,32 +13,32 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-' ===== SimpleSmartForm - ПОЛНАЯ ВЕРСИЯ С КНОПКОЙ ПЕЧАТИ =====
+' ===== SimpleSmartForm - пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ =====
 Option Explicit
 
-Private lastReport As String  ' Для хранения последнего отчета
+Private lastReport As String  ' пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 
-' Вместо пользовательского типа используем массивы строк
-' Индексы: 0=ProductName, 1=Batch, 2=Quantity, 3=Location
+' пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+' пїЅпїЅпїЅпїЅпїЅпїЅпїЅ: 0=ProductName, 1=Batch, 2=Quantity, 3=Location
 
-' ===== НОВЫЙ ОБРАБОТЧИК КНОПКИ ПЕЧАТИ =====
+' ===== пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ =====
 Private Sub CommandButton10_Click()
     If lastReport = "" Then
-        MsgBox "Нет данных для печати!", vbInformation
+        MsgBox "пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ!", vbInformation
         Exit Sub
     End If
     
-    ' Печатаем красивый отчет
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
     PrintBeautifulReport lastReport
 End Sub
 
 Private Sub CommandButton9_Click()
     If lastReport = "" Then
-        MsgBox "Нет данных для отчета!", vbInformation
+        MsgBox "пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ!", vbInformation
         Exit Sub
     End If
     
-    ' Показываем полный отчет
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
     ShowReportForm lastReport
 
 End Sub
@@ -46,54 +46,54 @@ End Sub
 Private Sub ShowReportForm(reportText As String)
     On Error GoTo ErrorHandler
     
-    ' Фиксированный путь для сохранения
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     Dim filePath As String
-    filePath = "C:\Users\mukam\Desktop\Остатки_ШТ_ШЭ\Размещение.txt"
+    filePath = "C:\Users\mukam\Desktop\пїЅпїЅпїЅпїЅпїЅпїЅпїЅ_пїЅпїЅ_пїЅпїЅ\пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.txt"
     
-    ' Проверяем существование папки
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
     Dim folderPath As String
-    folderPath = "C:\Users\mukam\Desktop\Остатки_ШТ_ШЭ"
+    folderPath = "C:\Users\mukam\Desktop\пїЅпїЅпїЅпїЅпїЅпїЅпїЅ_пїЅпїЅ_пїЅпїЅ"
     
     If Dir(folderPath, vbDirectory) = "" Then
         MkDir folderPath
     End If
     
-    ' Добавляем дату и время к отчету
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     Dim fullReport As String
-    fullReport = "=== ОТЧЕТ О РАЗМЕЩЕНИИ ТОВАРОВ ===" & vbNewLine
-    fullReport = fullReport & "Дата: " & Format(Now, "dd.mm.yyyy hh:mm:ss") & vbNewLine
+    fullReport = "=== пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ ===" & vbNewLine
+    fullReport = fullReport & "пїЅпїЅпїЅпїЅ: " & Format(Now, "dd.mm.yyyy hh:mm:ss") & vbNewLine
     fullReport = fullReport & String(50, "=") & vbNewLine & vbNewLine
     fullReport = fullReport & reportText
     
-    ' Сохраняем в файл
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ
     Dim fileNum As Integer
     fileNum = FreeFile
     Open filePath For Output As #fileNum
     Print #fileNum, fullReport
     Close #fileNum
     
-    ' Открываем файл в Блокноте
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     Shell "notepad.exe " & filePath, vbNormalFocus
     
-    MsgBox "Отчет сохранен:" & vbNewLine & filePath & vbNewLine & vbNewLine & _
-           "Файл открыт в Блокноте - можете скопировать нужный текст", vbInformation, "Отчет сохранен"
+    MsgBox "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ:" & vbNewLine & filePath & vbNewLine & vbNewLine & _
+           "пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ", vbInformation, "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ"
     
     Exit Sub
     
 ErrorHandler:
-    MsgBox "Ошибка сохранения отчета:" & vbNewLine & Err.description & vbNewLine & vbNewLine & _
-           "Проверьте путь: " & filePath, vbExclamation, "Ошибка"
+    MsgBox "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ:" & vbNewLine & Err.description & vbNewLine & vbNewLine & _
+           "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ: " & filePath, vbExclamation, "пїЅпїЅпїЅпїЅпїЅпїЅ"
 End Sub
 
 Private Sub UserForm_Initialize()
-    ' === РАЗМЕР ФОРМЫ (увеличиваем для новой кнопки) ===
+    ' === пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ) ===
     Me.Width = 600
-    Me.Height = 680  ' Увеличено для новой кнопки
-    Me.Caption = "Умное размещение товаров"
+    Me.Height = 680  ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+    Me.Caption = "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ"
     
-    ' === 1. ИНСТРУКЦИЯ (Label1) ===
+    ' === 1. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (Label1) ===
     With Label1
-        .Caption = "Введите товары БЕЗ указания места (формат: Товар - Партия - Количество):"
+        .Caption = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ):"
         .Top = 10
         .Left = 10
         .Width = 570
@@ -103,7 +103,7 @@ Private Sub UserForm_Initialize()
         .WordWrap = True
     End With
     
-    ' === 2. ТЕКСТОВОЕ ПОЛЕ ДЛЯ ВВОДА (TextBox1) ===
+    ' === 2. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ (TextBox1) ===
     With TextBox1
         .MultiLine = True
         .ScrollBars = fmScrollBarsBoth
@@ -113,23 +113,23 @@ Private Sub UserForm_Initialize()
         .Height = 120
         .Font.Name = "Consolas"
         .Font.Size = 11
-        ' Пример для пользователя
-        .text = "Пропишанс - пар03 - 720 (720)" & vbNewLine & _
-"Пропишанс - пар02 - 690 (720)" & vbNewLine & _
-"Пропишанс - пар03 - 400 (720)" & vbNewLine & _
-"Лерашанс - пар01 - 720 (720)" & vbNewLine & _
-"Лерашанс - пар02 - 110 (720)" & vbNewLine & _
-"Пропишанс Универсал - пар13 - 720 (720)" & vbNewLine & _
-"Пропишанс Универсал - пар13 - 720 (720)" & vbNewLine & _
-"Пропишанс Универсал - пар13 - 720 (720)" & vbNewLine & _
-"Пропишанс Универсал - пар27 - 720 (720)" & vbNewLine & _
-"Пропишанс Универсал - пар27 - 720 (720)" & vbNewLine & _
-"Пропишанс Универсал - пар27 - 720 (720)"
+        ' пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        .text = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅ03 - 720 (720)" & vbNewLine & _
+"пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅ02 - 690 (720)" & vbNewLine & _
+"пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅ03 - 400 (720)" & vbNewLine & _
+"пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅ01 - 720 (720)" & vbNewLine & _
+"пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅ02 - 110 (720)" & vbNewLine & _
+"пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅ13 - 720 (720)" & vbNewLine & _
+"пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅ13 - 720 (720)" & vbNewLine & _
+"пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅ13 - 720 (720)" & vbNewLine & _
+"пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅ27 - 720 (720)" & vbNewLine & _
+"пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅ27 - 720 (720)" & vbNewLine & _
+"пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅ27 - 720 (720)"
     End With
     
-    ' === 3. ЗАГОЛОВОК АНГАРОВ (Label2) ===
+    ' === 3. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ (Label2) ===
     With Label2
-        .Caption = "?? Активные ангары для размещения:"
+        .Caption = "?? пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ:"
         .Top = 180
         .Left = 10
         .Width = 570
@@ -139,10 +139,10 @@ Private Sub UserForm_Initialize()
         .ForeColor = RGB(0, 100, 0)
     End With
     
-    ' === 4. ГАЛОЧКИ АНГАРОВ (CheckBox1-8) ===
-    ' Первый ряд: Ангары 5,6,7,8
-    With CheckBox1  ' Ангар 5
-        .Caption = "Ангар 5"
+    ' === 4. пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ (CheckBox1-8) ===
+    ' пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅпїЅ 5,6,7,8
+    With CheckBox1  ' пїЅпїЅпїЅпїЅпїЅ 5
+        .Caption = "пїЅпїЅпїЅпїЅпїЅ 5"
         .Top = 210
         .Left = 15
         .Width = 80
@@ -150,8 +150,8 @@ Private Sub UserForm_Initialize()
         .value = True
     End With
     
-    With CheckBox2  ' Ангар 6
-        .Caption = "Ангар 6"
+    With CheckBox2  ' пїЅпїЅпїЅпїЅпїЅ 6
+        .Caption = "пїЅпїЅпїЅпїЅпїЅ 6"
         .Top = 210
         .Left = 105
         .Width = 80
@@ -159,8 +159,8 @@ Private Sub UserForm_Initialize()
         .value = True
     End With
     
-    With CheckBox3  ' Ангар 7
-        .Caption = "Ангар 7"
+    With CheckBox3  ' пїЅпїЅпїЅпїЅпїЅ 7
+        .Caption = "пїЅпїЅпїЅпїЅпїЅ 7"
         .Top = 210
         .Left = 195
         .Width = 80
@@ -168,8 +168,8 @@ Private Sub UserForm_Initialize()
         .value = True
     End With
     
-    With CheckBox4  ' Ангар 8
-        .Caption = "Ангар 8"
+    With CheckBox4  ' пїЅпїЅпїЅпїЅпїЅ 8
+        .Caption = "пїЅпїЅпїЅпїЅпїЅ 8"
         .Top = 210
         .Left = 285
         .Width = 80
@@ -177,9 +177,9 @@ Private Sub UserForm_Initialize()
         .value = True
     End With
     
-    ' Второй ряд: Ангары 9,10,11,12
-    With CheckBox5  ' Ангар 9
-        .Caption = "Ангар 9"
+    ' пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅпїЅ 9,10,11,12
+    With CheckBox5  ' пїЅпїЅпїЅпїЅпїЅ 9
+        .Caption = "пїЅпїЅпїЅпїЅпїЅ 9"
         .Top = 240
         .Left = 15
         .Width = 80
@@ -187,8 +187,8 @@ Private Sub UserForm_Initialize()
         .value = True
     End With
     
-    With CheckBox6  ' Ангар 10
-        .Caption = "Ангар 10"
+    With CheckBox6  ' пїЅпїЅпїЅпїЅпїЅ 10
+        .Caption = "пїЅпїЅпїЅпїЅпїЅ 10"
         .Top = 240
         .Left = 105
         .Width = 80
@@ -196,8 +196,8 @@ Private Sub UserForm_Initialize()
         .value = True
     End With
     
-    With CheckBox7  ' Ангар 11
-        .Caption = "Ангар 11"
+    With CheckBox7  ' пїЅпїЅпїЅпїЅпїЅ 11
+        .Caption = "пїЅпїЅпїЅпїЅпїЅ 11"
         .Top = 240
         .Left = 195
         .Width = 80
@@ -205,8 +205,8 @@ Private Sub UserForm_Initialize()
         .value = True
     End With
     
-    With CheckBox8  ' Ангар 12
-        .Caption = "Ангар 12"
+    With CheckBox8  ' пїЅпїЅпїЅпїЅпїЅ 12
+        .Caption = "пїЅпїЅпїЅпїЅпїЅ 12"
         .Top = 240
         .Left = 285
         .Width = 80
@@ -214,9 +214,9 @@ Private Sub UserForm_Initialize()
         .value = True
     End With
     
-    ' === 5. КНОПКИ УПРАВЛЕНИЯ АНГАРАМИ ===
-    With CommandButton4  ' Все
-        .Caption = "Все"
+    ' === 5. пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ ===
+    With CommandButton4  ' пїЅпїЅпїЅ
+        .Caption = "пїЅпїЅпїЅ"
         .Top = 240
         .Left = 380
         .Width = 50
@@ -224,8 +224,8 @@ Private Sub UserForm_Initialize()
         .BackColor = RGB(200, 255, 200)
     End With
     
-    With CommandButton5  ' Нет
-        .Caption = "Нет"
+    With CommandButton5  ' пїЅпїЅпїЅ
+        .Caption = "пїЅпїЅпїЅ"
         .Top = 240
         .Left = 440
         .Width = 50
@@ -233,9 +233,9 @@ Private Sub UserForm_Initialize()
         .BackColor = RGB(255, 200, 200)
     End With
     
-    ' === 6. ГЛАВНЫЕ КНОПКИ ===
-    With CommandButton1  ' РАЗМЕСТИТЬ
-        .Caption = "?? РАЗМЕСТИТЬ"
+    ' === 6. пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ ===
+    With CommandButton1  ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        .Caption = "?? пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ"
         .Top = 280
         .Left = 10
         .Width = 150
@@ -246,8 +246,8 @@ Private Sub UserForm_Initialize()
         .ForeColor = RGB(255, 255, 255)
     End With
     
-    With CommandButton2  ' ОЧИСТИТЬ
-        .Caption = "??? ОЧИСТИТЬ"
+    With CommandButton2  ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        .Caption = "??? пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ"
         .Top = 280
         .Left = 170
         .Width = 150
@@ -258,8 +258,8 @@ Private Sub UserForm_Initialize()
         .ForeColor = RGB(255, 255, 255)
     End With
     
-    With CommandButton3  ' ОТЧЕТ
-        .Caption = "?? ОТЧЕТ"
+    With CommandButton3  ' пїЅпїЅпїЅпїЅпїЅ
+        .Caption = "?? пїЅпїЅпїЅпїЅпїЅ"
         .Top = 280
         .Left = 330
         .Width = 150
@@ -271,9 +271,9 @@ Private Sub UserForm_Initialize()
         .Enabled = False
     End With
     
-    ' === 7. СТАТУС (Label3) ===
+    ' === 7. пїЅпїЅпїЅпїЅпїЅпїЅ (Label3) ===
     With Label3
-        .Caption = "Готов к работе. Выберите ангары и введите товары."
+        .Caption = "пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ."
         .Top = 340
         .Left = 10
         .Width = 570
@@ -284,125 +284,125 @@ Private Sub UserForm_Initialize()
         .TextAlign = fmTextAlignCenter
     End With
     
-    ' === 8. ДОПОЛНИТЕЛЬНЫЕ КНОПКИ ===
-    With CommandButton6  ' Настройки
-        .Caption = "?? Настройки"
+    ' === 8. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ ===
+    With CommandButton6  ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        .Caption = "?? пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ"
         .Top = 420
         .Left = 10
         .Width = 100
         .Height = 30
     End With
     
-    With CommandButton7  ' Помощь
-        .Caption = "? Помощь"
+    With CommandButton7  ' пїЅпїЅпїЅпїЅпїЅпїЅ
+        .Caption = "? пїЅпїЅпїЅпїЅпїЅпїЅ"
         .Top = 420
         .Left = 120
         .Width = 100
         .Height = 30
     End With
     
-    ' === НОВАЯ КНОПКА ПЕЧАТИ ===
-    With CommandButton10  ' ПЕЧАТЬ
-        .Caption = "??? ПЕЧАТЬ"
+    ' === пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ ===
+    With CommandButton10  ' пїЅпїЅпїЅпїЅпїЅпїЅ
+        .Caption = "??? пїЅпїЅпїЅпїЅпїЅпїЅ"
         .Top = 420
         .Left = 230
         .Width = 100
         .Height = 30
         .Font.Bold = True
-        .BackColor = RGB(100, 149, 237)  ' Синий цвет
+        .BackColor = RGB(100, 149, 237)  ' пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
         .ForeColor = RGB(255, 255, 255)
-        .Enabled = False  ' Включается после размещения
+        .Enabled = False  ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     End With
     
-    With CommandButton9  ' СОХРАНИТЬ
-        .Caption = "?? СОХРАНИТЬ"
+    With CommandButton9  ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        .Caption = "?? пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ"
         .Top = 420
         .Left = 340
         .Width = 100
         .Height = 30
         .Font.Bold = True
-        .BackColor = RGB(255, 165, 0)  ' Оранжевый цвет
+        .BackColor = RGB(255, 165, 0)  ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
         .ForeColor = RGB(255, 255, 255)
-        .Enabled = False  ' Включается после размещения
+        .Enabled = False  ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     End With
     
-    With CommandButton8  ' Закрыть
-        .Caption = "? Закрыть"
+    With CommandButton8  ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        .Caption = "? пїЅпїЅпїЅпїЅпїЅпїЅпїЅ"
         .Top = 420
         .Left = 450
         .Width = 100
         .Height = 30
     End With
     
-    ' === ИНИЦИАЛИЗАЦИЯ ===
+    ' === пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ ===
     Call LoadWarehouseSettings
     Call UpdateWarehouseStatus
 End Sub
 
-' ===== ОСНОВНЫЕ ОБРАБОТЧИКИ =====
+' ===== пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ =====
 
-Private Sub CommandButton1_Click()  ' РАЗМЕСТИТЬ
-    ' Проверка данных
+Private Sub CommandButton1_Click()  ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     If Trim(TextBox1.text) = "" Then
-        MsgBox "Введите товары для размещения!", vbExclamation
+        MsgBox "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ!", vbExclamation
         TextBox1.SetFocus
         Exit Sub
     End If
     
-    ' Проверка Excel
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Excel
     If ActiveWorkbook Is Nothing Then
-        MsgBox "Откройте файл с ангарами!", vbExclamation
+        MsgBox "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ!", vbExclamation
         Exit Sub
     End If
     
-    ' Проверка активных ангаров
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     If GetActiveWarehouseCount() = 0 Then
-        MsgBox "?? Не выбран ни один ангар для размещения!" & vbNewLine & _
-               "Включите хотя бы один ангар.", vbExclamation
+        MsgBox "?? пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ!" & vbNewLine & _
+               "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ.", vbExclamation
         Exit Sub
     End If
     
-    ' Подтверждение с информацией об активных ангарах
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     Dim activeList As String
     activeList = GetActiveWarehousesList()
     
-    If MsgBox("Разместить товары в активных ангарах?" & vbNewLine & vbNewLine & _
-              "Активные ангары: " & activeList, vbYesNo + vbQuestion) = vbNo Then
+    If MsgBox("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ?" & vbNewLine & vbNewLine & _
+              "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: " & activeList, vbYesNo + vbQuestion) = vbNo Then
         Exit Sub
     End If
     
-    ' Обновляем статус
-    Label3.Caption = "? Выполняется размещение в " & GetActiveWarehouseCount() & " ангарах..."
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+    Label3.Caption = "? пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ " & GetActiveWarehouseCount() & " пїЅпїЅпїЅпїЅпїЅпїЅпїЅ..."
     Label3.BackColor = RGB(255, 255, 200)
     DoEvents
     
-    ' Инициализация систем
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     Call ModuleProductInfo.InitializeProductDatabase
     Call ModuleWarehouseCapacity.InitializeWarehouseCapacities
     
-    ' Синхронизируем состояние ангаров
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     Call SyncWarehouseStates
     
-    ' Выполняем размещение
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     On Error GoTo ErrorHandler
     lastReport = ModuleSmartPlacement.SmartPlaceProducts(TextBox1.text)
     
-    ' Показываем результат
-    If InStr(lastReport, "УСПЕШНО") > 0 Then
-        Label3.Caption = "? Размещение выполнено! Нажмите ОТЧЕТ для деталей."
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    If InStr(lastReport, "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ") > 0 Then
+        Label3.Caption = "? пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ! пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ."
         Label3.BackColor = RGB(200, 255, 200)
         CommandButton3.Enabled = True
-        CommandButton9.Enabled = True   ' Включаем кнопку СОХРАНИТЬ
-        CommandButton10.Enabled = True  ' Включаем кнопку ПЕЧАТЬ
+        CommandButton9.Enabled = True   ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        CommandButton10.Enabled = True  ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         
-        ' Показываем краткий результат
+        ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         Dim successCount As Integer
         successCount = CountSuccessful(lastReport)
-        MsgBox "Успешно размещено: " & successCount & " товаров" & vbNewLine & _
-               "В ангарах: " & activeList & vbNewLine & _
-               "Ячейки помечены ЖЕЛТЫМ цветом", vbInformation
+        MsgBox "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: " & successCount & " пїЅпїЅпїЅпїЅпїЅпїЅпїЅ" & vbNewLine & _
+               "пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ: " & activeList & vbNewLine & _
+               "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ", vbInformation
     Else
-        Label3.Caption = "? Ошибка размещения"
+        Label3.Caption = "? пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ"
         Label3.BackColor = RGB(255, 200, 200)
         MsgBox lastReport, vbExclamation
     End If
@@ -410,157 +410,157 @@ Private Sub CommandButton1_Click()  ' РАЗМЕСТИТЬ
     Exit Sub
     
 ErrorHandler:
-    Label3.Caption = "? Ошибка: " & Err.description
+    Label3.Caption = "? пїЅпїЅпїЅпїЅпїЅпїЅ: " & Err.description
     Label3.BackColor = RGB(255, 200, 200)
-    MsgBox "Ошибка: " & Err.description, vbCritical
+    MsgBox "пїЅпїЅпїЅпїЅпїЅпїЅ: " & Err.description, vbCritical
 End Sub
 
-Private Sub CommandButton2_Click()  ' ОЧИСТИТЬ
+Private Sub CommandButton2_Click()  ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     TextBox1.text = ""
-    Label3.Caption = "Поле очищено. Готов к вводу товаров."
+    Label3.Caption = "пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ."
     Label3.BackColor = RGB(240, 240, 240)
     CommandButton3.Enabled = False
-    CommandButton9.Enabled = False   ' Выключаем кнопку СОХРАНИТЬ
-    CommandButton10.Enabled = False  ' Выключаем кнопку ПЕЧАТЬ
+    CommandButton9.Enabled = False   ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    CommandButton10.Enabled = False  ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     lastReport = ""
     TextBox1.SetFocus
 End Sub
 
-Private Sub CommandButton3_Click()  ' ОТЧЕТ
+Private Sub CommandButton3_Click()  ' пїЅпїЅпїЅпїЅпїЅ
     If lastReport = "" Then
-        MsgBox "Нет данных для отчета!", vbInformation
+        MsgBox "пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ!", vbInformation
         Exit Sub
     End If
     
-    ' Показываем отчет
-    MsgBox lastReport, vbInformation, "Подробный отчет о размещении"
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+    MsgBox lastReport, vbInformation, "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ"
 End Sub
 
-Private Sub CommandButton4_Click()  ' ВСЕ
-    CheckBox1.value = True   ' Ангар 5
-    CheckBox2.value = True   ' Ангар 6
-    CheckBox3.value = True   ' Ангар 7
-    CheckBox4.value = True   ' Ангар 8
-    CheckBox5.value = True   ' Ангар 9
-    CheckBox6.value = True   ' Ангар 10
-    CheckBox7.value = True   ' Ангар 11
-    CheckBox8.value = True   ' Ангар 12
+Private Sub CommandButton4_Click()  ' пїЅпїЅпїЅ
+    CheckBox1.value = True   ' пїЅпїЅпїЅпїЅпїЅ 5
+    CheckBox2.value = True   ' пїЅпїЅпїЅпїЅпїЅ 6
+    CheckBox3.value = True   ' пїЅпїЅпїЅпїЅпїЅ 7
+    CheckBox4.value = True   ' пїЅпїЅпїЅпїЅпїЅ 8
+    CheckBox5.value = True   ' пїЅпїЅпїЅпїЅпїЅ 9
+    CheckBox6.value = True   ' пїЅпїЅпїЅпїЅпїЅ 10
+    CheckBox7.value = True   ' пїЅпїЅпїЅпїЅпїЅ 11
+    CheckBox8.value = True   ' пїЅпїЅпїЅпїЅпїЅ 12
     Call UpdateWarehouseStatus
 End Sub
 
-Private Sub CommandButton5_Click()  ' НЕТ
-    CheckBox1.value = False  ' Ангар 5
-    CheckBox2.value = False  ' Ангар 6
-    CheckBox3.value = False  ' Ангар 7
-    CheckBox4.value = False  ' Ангар 8
-    CheckBox5.value = False  ' Ангар 9
-    CheckBox6.value = False  ' Ангар 10
-    CheckBox7.value = False  ' Ангар 11
-    CheckBox8.value = False  ' Ангар 12
+Private Sub CommandButton5_Click()  ' пїЅпїЅпїЅ
+    CheckBox1.value = False  ' пїЅпїЅпїЅпїЅпїЅ 5
+    CheckBox2.value = False  ' пїЅпїЅпїЅпїЅпїЅ 6
+    CheckBox3.value = False  ' пїЅпїЅпїЅпїЅпїЅ 7
+    CheckBox4.value = False  ' пїЅпїЅпїЅпїЅпїЅ 8
+    CheckBox5.value = False  ' пїЅпїЅпїЅпїЅпїЅ 9
+    CheckBox6.value = False  ' пїЅпїЅпїЅпїЅпїЅ 10
+    CheckBox7.value = False  ' пїЅпїЅпїЅпїЅпїЅ 11
+    CheckBox8.value = False  ' пїЅпїЅпїЅпїЅпїЅ 12
     Call UpdateWarehouseStatus
 End Sub
 
-Private Sub CommandButton6_Click()  ' НАСТРОЙКИ
+Private Sub CommandButton6_Click()  ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     Dim info As String
-    info = "?? НАСТРОЙКИ АНГАРОВ" & vbNewLine & vbNewLine
-    info = info & "Активные ангары: " & GetActiveWarehousesList() & vbNewLine
-    info = info & "Общее количество: " & GetActiveWarehouseCount() & " из 8" & vbNewLine & vbNewLine
-    info = info & "?? Настройки автоматически сохраняются" & vbNewLine
-    info = info & "?? Для изменения лимитов используйте ModuleWarehouseCapacity"
+    info = "?? пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ" & vbNewLine & vbNewLine
+    info = info & "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: " & GetActiveWarehousesList() & vbNewLine
+    info = info & "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: " & GetActiveWarehouseCount() & " пїЅпїЅ 8" & vbNewLine & vbNewLine
+    info = info & "?? пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ" & vbNewLine
+    info = info & "?? пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ ModuleWarehouseCapacity"
     
-    MsgBox info, vbInformation, "Информация о настройках"
+    MsgBox info, vbInformation, "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ"
 End Sub
 
-Private Sub CommandButton7_Click()  ' ПОМОЩЬ
+Private Sub CommandButton7_Click()  ' пїЅпїЅпїЅпїЅпїЅпїЅ
     Dim help As String
-    help = "? СПРАВКА ПО УМНОМУ РАЗМЕЩЕНИЮ" & vbNewLine & vbNewLine
-    help = help & "?? ФОРМАТ ВВОДА:" & vbNewLine
-    help = help & "Товар - Партия - Количество" & vbNewLine & vbNewLine
-    help = help & "?? ПРИМЕРЫ:" & vbNewLine
-    help = help & "Лерашанс - пар13 - 720" & vbNewLine
-    help = help & "Босфор - пар07 - 500" & vbNewLine
-    help = help & "Дикошанс - пар25 - 360" & vbNewLine & vbNewLine
-    help = help & "?? ОСОБЕННОСТИ:" & vbNewLine
-    help = help & "• Система сама найдет оптимальное место" & vbNewLine
-    help = help & "• Учитывает индивидуальные лимиты ангаров" & vbNewLine
-    help = help & "• Размещает только в выбранных ангарах" & vbNewLine
-    help = help & "• Помечает новые ячейки желтым цветом" & vbNewLine & vbNewLine
-    help = help & "??? ПЕЧАТЬ:" & vbNewLine
-    help = help & "• Кнопка 'ПЕЧАТЬ' создает красивый табличный отчет" & vbNewLine
-    help = help & "• Автоматическая сортировка по наименованию" & vbNewLine
-    help = help & "• Наглядное отображение со стрелками" & vbNewLine & vbNewLine
-    help = help & "?? СОХРАНИТЬ:" & vbNewLine
-    help = help & "• Сохраняет отчет в текстовый файл" & vbNewLine
-    help = help & "• Автоматически открывает в Блокноте"
+    help = "? пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ" & vbNewLine & vbNewLine
+    help = help & "?? пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ:" & vbNewLine
+    help = help & "пїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ" & vbNewLine & vbNewLine
+    help = help & "?? пїЅпїЅпїЅпїЅпїЅпїЅпїЅ:" & vbNewLine
+    help = help & "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅ13 - 720" & vbNewLine
+    help = help & "пїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅ07 - 500" & vbNewLine
+    help = help & "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅ25 - 360" & vbNewLine & vbNewLine
+    help = help & "?? пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ:" & vbNewLine
+    help = help & "пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ" & vbNewLine
+    help = help & "пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ" & vbNewLine
+    help = help & "пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ" & vbNewLine
+    help = help & "пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ" & vbNewLine & vbNewLine
+    help = help & "??? пїЅпїЅпїЅпїЅпїЅпїЅ:" & vbNewLine
+    help = help & "пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ 'пїЅпїЅпїЅпїЅпїЅпїЅ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ" & vbNewLine
+    help = help & "пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ" & vbNewLine
+    help = help & "пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ" & vbNewLine & vbNewLine
+    help = help & "?? пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ:" & vbNewLine
+    help = help & "пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ" & vbNewLine
+    help = help & "пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ"
     
-    MsgBox help, vbInformation, "Помощь"
+    MsgBox help, vbInformation, "пїЅпїЅпїЅпїЅпїЅпїЅ"
 End Sub
 
-Private Sub CommandButton8_Click()  ' ЗАКРЫТЬ
-    If MsgBox("Закрыть форму умного размещения?", vbYesNo + vbQuestion) = vbYes Then
+Private Sub CommandButton8_Click()  ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    If MsgBox("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ?", vbYesNo + vbQuestion) = vbYes Then
         Call SaveWarehouseSettings
         Unload Me
     End If
 End Sub
 
-' ===== ОБРАБОТЧИКИ ГАЛОЧЕК =====
+' ===== пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ =====
 
-Private Sub CheckBox1_Click()  ' Ангар 5
+Private Sub CheckBox1_Click()  ' пїЅпїЅпїЅпїЅпїЅ 5
     Call UpdateWarehouseStatus
     Call ModuleWarehouseCapacity.SetWarehouseActive("5", CheckBox1.value)
 End Sub
 
-Private Sub CheckBox2_Click()  ' Ангар 6
+Private Sub CheckBox2_Click()  ' пїЅпїЅпїЅпїЅпїЅ 6
     Call UpdateWarehouseStatus
     Call ModuleWarehouseCapacity.SetWarehouseActive("6", CheckBox2.value)
 End Sub
 
-Private Sub CheckBox3_Click()  ' Ангар 7
+Private Sub CheckBox3_Click()  ' пїЅпїЅпїЅпїЅпїЅ 7
     Call UpdateWarehouseStatus
     Call ModuleWarehouseCapacity.SetWarehouseActive("7", CheckBox3.value)
 End Sub
 
-Private Sub CheckBox4_Click()  ' Ангар 8
+Private Sub CheckBox4_Click()  ' пїЅпїЅпїЅпїЅпїЅ 8
     Call UpdateWarehouseStatus
     Call ModuleWarehouseCapacity.SetWarehouseActive("8", CheckBox4.value)
 End Sub
 
-Private Sub CheckBox5_Click()  ' Ангар 9
+Private Sub CheckBox5_Click()  ' пїЅпїЅпїЅпїЅпїЅ 9
     Call UpdateWarehouseStatus
     Call ModuleWarehouseCapacity.SetWarehouseActive("9", CheckBox5.value)
 End Sub
 
-Private Sub CheckBox6_Click()  ' Ангар 10
+Private Sub CheckBox6_Click()  ' пїЅпїЅпїЅпїЅпїЅ 10
     Call UpdateWarehouseStatus
     Call ModuleWarehouseCapacity.SetWarehouseActive("10", CheckBox6.value)
 End Sub
 
-Private Sub CheckBox7_Click()  ' Ангар 11
+Private Sub CheckBox7_Click()  ' пїЅпїЅпїЅпїЅпїЅ 11
     Call UpdateWarehouseStatus
     Call ModuleWarehouseCapacity.SetWarehouseActive("11", CheckBox7.value)
 End Sub
 
-Private Sub CheckBox8_Click()  ' Ангар 12
+Private Sub CheckBox8_Click()  ' пїЅпїЅпїЅпїЅпїЅ 12
     Call UpdateWarehouseStatus
     Call ModuleWarehouseCapacity.SetWarehouseActive("12", CheckBox8.value)
 End Sub
 
-' ===== ФУНКЦИИ ДЛЯ КРАСИВОЙ ПЕЧАТИ =====
+' ===== пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ =====
 
-' ===== ФУНКЦИЯ КРАСИВОЙ ПЕЧАТИ =====
+' ===== пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ =====
 Private Sub PrintBeautifulReport(reportText As String)
     On Error GoTo ErrorHandler
     
-    ' Парсим данные из отчета
+    ' пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     Dim placements As Collection
     Set placements = ParseReportData(reportText)
     
     If placements.count = 0 Then
-        MsgBox "Нет данных для печати!", vbInformation
+        MsgBox "пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ!", vbInformation
         Exit Sub
     End If
     
-    ' Создаем новый лист для печати
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     Dim printSheet As Worksheet
     Set printSheet = CreatePrintSheet()
     
@@ -568,42 +568,42 @@ Private Sub PrintBeautifulReport(reportText As String)
         Exit Sub
     End If
     
-    ' Заполняем данные
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     Call FillPrintSheet(printSheet, placements)
     
-    ' Форматируем таблицу
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     Call FormatPrintSheet(printSheet, placements.count)
     
-    ' Показываем предварительный просмотр и печать
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     printSheet.Select
     
-    MsgBox "?? Отчет готов к печати!" & vbNewLine & vbNewLine & _
-           "• Данные отсортированы по наименованию" & vbNewLine & _
-           "• Красивое табличное оформление" & vbNewLine & _
-           "• Стрелки для наглядности" & vbNewLine & _
-           "• Всего позиций: " & placements.count & vbNewLine & vbNewLine & _
-           "Нажмите OK для печати...", vbInformation, "Готов к печати"
+    MsgBox "?? пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ!" & vbNewLine & vbNewLine & _
+           "пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ" & vbNewLine & _
+           "пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ" & vbNewLine & _
+           "пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ" & vbNewLine & _
+           "пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ: " & placements.count & vbNewLine & vbNewLine & _
+           "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ OK пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ...", vbInformation, "пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ"
     
-    ' Вызываем диалог печати
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     Application.Dialogs(xlDialogPrint).Show
     
     Exit Sub
     
 ErrorHandler:
-    MsgBox "Ошибка создания отчета для печати:" & vbNewLine & Err.description, vbCritical
+    MsgBox "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ:" & vbNewLine & Err.description, vbCritical
 End Sub
 
-' ===== ПАРСИНГ ДАННЫХ ИЗ ОТЧЕТА =====
+' ===== пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ =====
 Private Function ParseReportData(reportText As String) As Collection
     Set ParseReportData = New Collection
     
     On Error GoTo ErrorHandler
     
-    ' Разбиваем отчет на строки
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     Dim lines() As String
     lines = Split(reportText, vbNewLine)
     
-    ' Ищем секцию с размещениями
+    ' пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     Dim foundPlacements As Boolean
     foundPlacements = False
     
@@ -612,20 +612,20 @@ Private Function ParseReportData(reportText As String) As Collection
         Dim line As String
         line = Trim(lines(i))
         
-        ' Ищем начало секции размещений
-        If InStr(line, "РАЗМЕЩЕНИЯ ЯЧЕЙКА-ЗА-ЯЧЕЙКОЙ:") > 0 Then
+        ' пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        If InStr(line, "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ-пїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅ:") > 0 Then
             foundPlacements = True
             GoTo NextLine
         End If
         
-        ' Если нашли размещения и строка содержит данные
+        ' пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         If foundPlacements And line <> "" And InStr(line, "---------") = 0 Then
-            ' Проверяем, не закончились ли размещения
-            If InStr(line, "ОШИБКИ:") > 0 Or InStr(line, "ИСПРАВЛЕНИЯ:") > 0 Then
+            ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+            If InStr(line, "пїЅпїЅпїЅпїЅпїЅпїЅ:") > 0 Or InStr(line, "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ:") > 0 Then
                 Exit For
             End If
             
-            ' Парсим строку размещения
+            ' пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             Dim placement(3) As String  ' 0=ProductName, 1=Batch, 2=Quantity, 3=Location
             If ParsePlacementLine(line, placement) Then
                 ParseReportData.Add placement
@@ -635,7 +635,7 @@ Private Function ParseReportData(reportText As String) As Collection
 NextLine:
     Next i
     
-    ' Сортируем по наименованию
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     If ParseReportData.count > 1 Then
         Set ParseReportData = SortPlacementsByName(ParseReportData)
     End If
@@ -643,22 +643,22 @@ NextLine:
     Exit Function
     
 ErrorHandler:
-    MsgBox "Ошибка парсинга данных: " & Err.description, vbCritical
+    MsgBox "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: " & Err.description, vbCritical
     Set ParseReportData = New Collection
 End Function
 
-' ===== ПАРСИНГ ОДНОЙ СТРОКИ РАЗМЕЩЕНИЯ =====
+' ===== пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ =====
 Private Function ParsePlacementLine(line As String, ByRef placement() As String) As Boolean
     On Error GoTo ErrorHandler
     
-    ' Пример строки: "Ангар 6-28-ПРЗ-1 - Галошанс (пар08) - 110 "
+    ' пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: "пїЅпїЅпїЅпїЅпїЅ 6-28-пїЅпїЅпїЅ-1 - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅ08) - 110 "
     
-    ' Убираем "Ангар " в начале
-    If InStr(line, "Ангар ") = 1 Then
-        line = Mid(line, 7) ' Убираем "Ангар "
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅ "пїЅпїЅпїЅпїЅпїЅ " пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+    If InStr(line, "пїЅпїЅпїЅпїЅпїЅ ") = 1 Then
+        line = Mid(line, 7) ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅ "пїЅпїЅпїЅпїЅпїЅ "
     End If
     
-    ' Разбиваем по " - "
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ " - "
     Dim parts() As String
     parts = Split(line, " - ")
     
@@ -667,14 +667,14 @@ Private Function ParsePlacementLine(line As String, ByRef placement() As String)
         Exit Function
     End If
     
-    ' Получаем место размещения
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     placement(3) = Trim(parts(0))  ' Location
     
-    ' Парсим продукт и партию: "Галошанс (пар08)"
+    ' пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅ08)"
     Dim productPart As String
     productPart = Trim(parts(1))
     
-    ' Ищем партию в скобках
+    ' пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     Dim openBracket As Integer, closeBracket As Integer
     openBracket = InStrRev(productPart, "(")
     closeBracket = InStrRev(productPart, ")")
@@ -687,7 +687,7 @@ Private Function ParsePlacementLine(line As String, ByRef placement() As String)
         placement(1) = ""  ' Batch
     End If
     
-    ' Получаем количество
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     placement(2) = Trim(parts(2))  ' Quantity
     
     ParsePlacementLine = True
@@ -697,21 +697,21 @@ ErrorHandler:
     ParsePlacementLine = False
 End Function
 
-' ===== СОРТИРОВКА ПО НАИМЕНОВАНИЮ =====
+' ===== пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ =====
 Private Function SortPlacementsByName(unsortedCollection As Collection) As Collection
     On Error GoTo ErrorHandler
     
-    ' Создаем массив для сортировки
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     Dim tempArray() As Variant
     ReDim tempArray(1 To unsortedCollection.count)
     
-    ' Копируем в массив
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     Dim i As Integer
     For i = 1 To unsortedCollection.count
         tempArray(i) = unsortedCollection(i)
     Next i
     
-    ' ===== ТРЕХУРОВНЕВАЯ СОРТИРОВКА =====
+    ' ===== пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ =====
     Dim j As Integer
     Dim temp As Variant
     For i = 1 To UBound(tempArray) - 1
@@ -719,36 +719,46 @@ Private Function SortPlacementsByName(unsortedCollection As Collection) As Colle
             Dim item1() As String, item2() As String
             item1 = tempArray(i)
             item2 = tempArray(j)
-            
-            ' Извлекаем номера ангаров из Location
+
+            ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ Location
             Dim warehouse1 As Integer, warehouse2 As Integer
             warehouse1 = GetWarehouseFromLocation(item1(3))
             warehouse2 = GetWarehouseFromLocation(item2(3))
-            
-            ' Извлекаем количества
+
+            ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+            Dim row1 As Integer, row2 As Integer
+            row1 = GetRowFromLocation(item1(3))
+            row2 = GetRowFromLocation(item2(3))
+
+            ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             Dim qty1 As Double, qty2 As Double
             qty1 = Val(item1(2))
             qty2 = Val(item2(2))
-            
+
             Dim needSwap As Boolean
             needSwap = False
-            
-            ' УРОВЕНЬ 1: Сортировка по ангарам
+
+            ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅ 1: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             If warehouse1 > warehouse2 Then
                 needSwap = True
             ElseIf warehouse1 = warehouse2 Then
-                ' УРОВЕНЬ 2: Если ангары одинаковые - сортируем по названию товара
-                If UCase(item1(0)) > UCase(item2(0)) Then
+                ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅ 2: пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ!)
+                If row1 > row2 Then
                     needSwap = True
-                ElseIf UCase(item1(0)) = UCase(item2(0)) Then
-                    ' УРОВЕНЬ 3: Если товары одинаковые - сортируем по количеству (УБЫВАНИЕ)
-                    If qty1 < qty2 Then  ' Меньшее количество идет ПОСЛЕ большего
+                ElseIf row1 = row2 Then
+                    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅ 3: пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+                    If UCase(item1(0)) > UCase(item2(0)) Then
                         needSwap = True
+                    ElseIf UCase(item1(0)) = UCase(item2(0)) Then
+                        ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅ 4: пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
+                        If qty1 < qty2 Then  ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+                            needSwap = True
+                        End If
                     End If
                 End If
             End If
-            
-            ' Меняем местами если нужно
+
+            ' пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
             If needSwap Then
                 temp = tempArray(i)
                 tempArray(i) = tempArray(j)
@@ -757,7 +767,7 @@ Private Function SortPlacementsByName(unsortedCollection As Collection) As Colle
         Next j
     Next i
     
-    ' Создаем новую коллекцию
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     Set SortPlacementsByName = New Collection
     For i = 1 To UBound(tempArray)
         SortPlacementsByName.Add tempArray(i)
@@ -770,27 +780,44 @@ ErrorHandler:
 End Function
 Private Function GetWarehouseFromLocation(location As String) As Integer
     On Error Resume Next
-    
-    ' Из строки "6-38-М-1" извлекаем "6"
+
+    ' пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ "6-38-пїЅ-1" пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ "6"
     Dim parts() As String
     parts = Split(location, "-")
-    
+
     If UBound(parts) >= 0 Then
         GetWarehouseFromLocation = CInt(parts(0))
     Else
-        GetWarehouseFromLocation = 999  ' Если ошибка - помещаем в конец
+        GetWarehouseFromLocation = 999  ' пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ
     End If
-    
+
     On Error GoTo 0
 End Function
 
-' ===== СОЗДАНИЕ ЛИСТА ДЛЯ ПЕЧАТИ =====
+' ===== РќРѕРІР°СЏ С„СѓРЅРєС†РёСЏ РґР»СЏ РёР·РІР»РµС‡РµРЅРёСЏ РЅРѕРјРµСЂР° СЂСЏРґР° =====
+Private Function GetRowFromLocation(location As String) As Integer
+    On Error Resume Next
+
+    ' пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ "6-38-пїЅ-1" пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ "38"
+    Dim parts() As String
+    parts = Split(location, "-")
+
+    If UBound(parts) >= 1 Then
+        GetRowFromLocation = CInt(parts(1))
+    Else
+        GetRowFromLocation = 999  ' пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ
+    End If
+
+    On Error GoTo 0
+End Function
+
+' ===== пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ =====
 Private Function CreatePrintSheet() As Worksheet
     On Error GoTo ErrorHandler
     
-    ' Удаляем старый лист если есть
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
     Dim sheetName As String
-    sheetName = "Отчет_Печать"
+    sheetName = "пїЅпїЅпїЅпїЅпїЅ_пїЅпїЅпїЅпїЅпїЅпїЅ"
     
     Dim ws As Worksheet
     For Each ws In ActiveWorkbook.Worksheets
@@ -802,13 +829,13 @@ Private Function CreatePrintSheet() As Worksheet
         End If
     Next ws
     
-    ' Создаем новый лист
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
     Set CreatePrintSheet = ActiveWorkbook.Worksheets.Add
     CreatePrintSheet.Name = sheetName
     
-    ' Настройки печати
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     With CreatePrintSheet.PageSetup
-        .Orientation = xlPortrait ' Книжная ориентация
+        .Orientation = xlPortrait ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         .PaperSize = xlPaperA4
         .LeftMargin = Application.InchesToPoints(0.5)
         .RightMargin = Application.InchesToPoints(0.5)
@@ -825,34 +852,34 @@ Private Function CreatePrintSheet() As Worksheet
     Exit Function
     
 ErrorHandler:
-    MsgBox "Ошибка создания листа: " & Err.description, vbCritical
+    MsgBox "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ: " & Err.description, vbCritical
     Set CreatePrintSheet = Nothing
 End Function
 
-' ===== ЗАПОЛНЕНИЕ ЛИСТА ДАННЫМИ =====
+' ===== пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ =====
 Private Sub FillPrintSheet(printSheet As Worksheet, placements As Collection)
     On Error GoTo ErrorHandler
     
     With printSheet
-        ' Очищаем лист
+        ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
         .Cells.Clear
         
-        ' === ЗАГОЛОВОК ОТЧЕТА ===
-        .Cells(1, 1).value = "ОТЧЕТ О РАЗМЕЩЕНИИ ТОВАРОВ"
-        .Cells(2, 1).value = "Дата: " & Format(Now, "dd.mm.yyyy hh:mm:ss")
-        .Cells(3, 1).value = "Активные ангары: " & GetActiveWarehousesList()
+        ' === пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ ===
+        .Cells(1, 1).value = "пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ"
+        .Cells(2, 1).value = "пїЅпїЅпїЅпїЅ: " & Format(Now, "dd.mm.yyyy hh:mm:ss")
+        .Cells(3, 1).value = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: " & GetActiveWarehousesList()
         
-        ' === ЗАГОЛОВКИ ТАБЛИЦЫ ===
+        ' === пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ ===
         Dim headerRow As Long
         headerRow = 6
         
-        .Cells(headerRow, 1).value = "Наименований"
-        .Cells(headerRow, 2).value = "Партия"
-        .Cells(headerRow, 3).value = "Кол-во"
-        .Cells(headerRow, 4).value = "Куда"
-        .Cells(headerRow, 5).value = "Ангар"
+        .Cells(headerRow, 1).value = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ"
+        .Cells(headerRow, 2).value = "пїЅпїЅпїЅпїЅпїЅпїЅ"
+        .Cells(headerRow, 3).value = "пїЅпїЅпїЅ-пїЅпїЅ"
+        .Cells(headerRow, 4).value = "пїЅпїЅпїЅпїЅ"
+        .Cells(headerRow, 5).value = "пїЅпїЅпїЅпїЅпїЅ"
         
-        ' === ДАННЫЕ ===
+        ' === пїЅпїЅпїЅпїЅпїЅпїЅ ===
         Dim dataRow As Long
         dataRow = headerRow + 1
         
@@ -864,7 +891,7 @@ Private Sub FillPrintSheet(printSheet As Worksheet, placements As Collection)
             .Cells(dataRow, 1).value = placement(0)  ' ProductName
             .Cells(dataRow, 2).value = "(" & placement(1) & ")"  ' Batch
             .Cells(dataRow, 3).value = placement(2)  ' Quantity
-            .Cells(dataRow, 4).value = ">"  ' Стрелка
+            .Cells(dataRow, 4).value = ">"  ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             .Cells(dataRow, 5).value = placement(3)  ' Location
             
             dataRow = dataRow + 1
@@ -875,15 +902,15 @@ Private Sub FillPrintSheet(printSheet As Worksheet, placements As Collection)
     Exit Sub
     
 ErrorHandler:
-    MsgBox "Ошибка заполнения данных: " & Err.description, vbCritical
+    MsgBox "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: " & Err.description, vbCritical
 End Sub
 
-' ===== ФОРМАТИРОВАНИЕ ТАБЛИЦЫ =====
+' ===== пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ =====
 Private Sub FormatPrintSheet(printSheet As Worksheet, dataCount As Long)
     On Error GoTo ErrorHandler
     
     With printSheet
-        ' === ЗАГОЛОВОК ОТЧЕТА ===
+        ' === пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ ===
         With .Range("A1:E1")
             .Merge
             .Font.Size = 16
@@ -910,7 +937,7 @@ Private Sub FormatPrintSheet(printSheet As Worksheet, dataCount As Long)
             .RowHeight = 20
         End With
         
-        ' === ЗАГОЛОВКИ ТАБЛИЦЫ ===
+        ' === пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ ===
         Dim headerRange As String
         headerRange = "A6:E6"
         
@@ -924,7 +951,7 @@ Private Sub FormatPrintSheet(printSheet As Worksheet, dataCount As Long)
             .RowHeight = 30
         End With
         
-        ' === ДАННЫЕ ТАБЛИЦЫ ===
+        ' === пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ ===
         If dataCount > 0 Then
             Dim dataRange As String
             dataRange = "A7:E" & (6 + dataCount)
@@ -935,19 +962,19 @@ Private Sub FormatPrintSheet(printSheet As Worksheet, dataCount As Long)
                 .RowHeight = 25
             End With
             
-            ' Выравнивание колонок
-            .columns("A").HorizontalAlignment = xlLeft     ' Наименования - влево
-            .columns("B").HorizontalAlignment = xlCenter   ' Партия - по центру
-            .columns("C").HorizontalAlignment = xlCenter   ' Количество - по центру
-            .columns("D").HorizontalAlignment = xlCenter   ' Стрелка - по центру
-            .columns("E").HorizontalAlignment = xlCenter   ' Ангар - по центру
+            ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+            .columns("A").HorizontalAlignment = xlLeft     ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅпїЅ
+            .columns("B").HorizontalAlignment = xlCenter   ' пїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+            .columns("C").HorizontalAlignment = xlCenter   ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+            .columns("D").HorizontalAlignment = xlCenter   ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+            .columns("E").HorizontalAlignment = xlCenter   ' пїЅпїЅпїЅпїЅпїЅ - пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
             
-            ' Цвет стрелок
+            ' пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             .columns("D").Font.Color = RGB(255, 0, 0)
             .columns("D").Font.Size = 14
             .columns("D").Font.Bold = True
             
-            ' Чередующиеся цвета строк
+            ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
             Dim row As Long
             For row = 7 To 6 + dataCount
                 If row Mod 2 = 0 Then
@@ -956,7 +983,7 @@ Private Sub FormatPrintSheet(printSheet As Worksheet, dataCount As Long)
             Next row
         End If
         
-        ' === ГРАНИЦЫ ТАБЛИЦЫ ===
+        ' === пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ ===
         Dim tableRange As String
         tableRange = "A6:E" & (6 + dataCount)
         
@@ -966,45 +993,45 @@ Private Sub FormatPrintSheet(printSheet As Worksheet, dataCount As Long)
             .Color = RGB(0, 0, 0)
         End With
         
-        ' === ШИРИНА КОЛОНОК ===
-        .columns("A").ColumnWidth = 25  ' Наименования
-        .columns("B").ColumnWidth = 12  ' Партия
-        .columns("C").ColumnWidth = 10  ' Количество
-        .columns("D").ColumnWidth = 8   ' Стрелка
-        .columns("E").ColumnWidth = 20  ' Ангар
+        ' === пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ ===
+        .columns("A").ColumnWidth = 25  ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        .columns("B").ColumnWidth = 12  ' пїЅпїЅпїЅпїЅпїЅпїЅ
+        .columns("C").ColumnWidth = 10  ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        .columns("D").ColumnWidth = 8   ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        .columns("E").ColumnWidth = 20  ' пїЅпїЅпїЅпїЅпїЅ
         
-        ' === АВТОПОДГОНКА ВЫСОТЫ ===
+        ' === пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ ===
         .rows("1:3").AutoFit
         
-        ' === ОБЛАСТЬ ПЕЧАТИ ===
+        ' === пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ ===
         .PageSetup.PrintArea = "A1:E" & (6 + dataCount + 2)
         
-        ' === ЗАГОЛОВОК И ПОДВАЛ ===
-        .PageSetup.CenterHeader = "&B&14Отчет о размещении товаров"
-        .PageSetup.RightFooter = "&D &T - Стр. &P из &N"
+        ' === пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ ===
+        .PageSetup.CenterHeader = "&B&14пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ"
+        .PageSetup.RightFooter = "&D &T - пїЅпїЅпїЅ. &P пїЅпїЅ &N"
         
     End With
     
     Exit Sub
     
 ErrorHandler:
-    MsgBox "Ошибка форматирования: " & Err.description, vbCritical
+    MsgBox "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: " & Err.description, vbCritical
 End Sub
 
-' ===== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =====
+' ===== пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ =====
 
 Private Function GetActiveWarehouseCount() As Integer
     Dim count As Integer
     count = 0
     
-    If CheckBox1.value Then count = count + 1   ' Ангар 5
-    If CheckBox2.value Then count = count + 1   ' Ангар 6
-    If CheckBox3.value Then count = count + 1   ' Ангар 7
-    If CheckBox4.value Then count = count + 1   ' Ангар 8
-    If CheckBox5.value Then count = count + 1   ' Ангар 9
-    If CheckBox6.value Then count = count + 1   ' Ангар 10
-    If CheckBox7.value Then count = count + 1   ' Ангар 11
-    If CheckBox8.value Then count = count + 1   ' Ангар 12
+    If CheckBox1.value Then count = count + 1   ' пїЅпїЅпїЅпїЅпїЅ 5
+    If CheckBox2.value Then count = count + 1   ' пїЅпїЅпїЅпїЅпїЅ 6
+    If CheckBox3.value Then count = count + 1   ' пїЅпїЅпїЅпїЅпїЅ 7
+    If CheckBox4.value Then count = count + 1   ' пїЅпїЅпїЅпїЅпїЅ 8
+    If CheckBox5.value Then count = count + 1   ' пїЅпїЅпїЅпїЅпїЅ 9
+    If CheckBox6.value Then count = count + 1   ' пїЅпїЅпїЅпїЅпїЅ 10
+    If CheckBox7.value Then count = count + 1   ' пїЅпїЅпїЅпїЅпїЅ 11
+    If CheckBox8.value Then count = count + 1   ' пїЅпїЅпїЅпїЅпїЅ 12
     
     GetActiveWarehouseCount = count
 End Function
@@ -1022,7 +1049,7 @@ Private Function GetActiveWarehousesList() As String
     If CheckBox7.value Then list = list & "11, "
     If CheckBox8.value Then list = list & "12, "
     
-    ' Убираем последнюю запятую
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     If Len(list) > 2 Then
         list = Left(list, Len(list) - 2)
     End If
@@ -1035,13 +1062,13 @@ Private Sub UpdateWarehouseStatus()
     activeCount = GetActiveWarehouseCount()
     
     If activeCount = 0 Then
-        Label3.Caption = "?? Не выбран ни один ангар! Выберите ангары для размещения."
+        Label3.Caption = "?? пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ! пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ."
         Label3.BackColor = RGB(255, 200, 200)
     ElseIf activeCount = 8 Then
-        Label3.Caption = "? Все ангары активны - готов к размещению"
+        Label3.Caption = "? пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ"
         Label3.BackColor = RGB(200, 255, 200)
     Else
-        Label3.Caption = "?? Активно ангаров: " & activeCount & " из 8 (" & GetActiveWarehousesList() & ")"
+        Label3.Caption = "?? пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ: " & activeCount & " пїЅпїЅ 8 (" & GetActiveWarehousesList() & ")"
         Label3.BackColor = RGB(200, 230, 255)
     End If
 End Sub
