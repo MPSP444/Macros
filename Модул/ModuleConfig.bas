@@ -9,20 +9,21 @@ Public Function GetWarehouseConfig(warehouseNumber As String) As ModuleTypes.War
     Select Case warehouseNumber
         Case "5"
             With config
-                .sheetName = "Ангар 5"
+                .sheetName = "пїЅпїЅпїЅпїЅпїЅ 5"
                 .UpperDataStart = 4
                 .UpperDataEnd = 30
-                .UpperHeaderRow = 2    ' Добавлено
+                .UpperHeaderRow = 2    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                 .LowerDataStart = 42
                 .LowerDataEnd = 68
-                .LowerHeaderRow = 70   ' Добавлено
-                .outputStartRow = 115  ' Добавлено
+                .LowerHeaderRow = 70   ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+                .outputStartRow = 115  ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                 .RowNumbersToSkip = Array(3, 69)
+                .maxRows = 45          ' РњР°РєСЃРёРјСѓРј 45 СЂСЏРґРѕРІ (РґРѕ CN)
             End With
             
         Case "6"
             With config
-                .sheetName = "Ангар 6"
+                .sheetName = "пїЅпїЅпїЅпїЅпїЅ 6"
                 .UpperDataStart = 4
                 .UpperDataEnd = 30
                 .UpperHeaderRow = 2
@@ -31,11 +32,12 @@ Public Function GetWarehouseConfig(warehouseNumber As String) As ModuleTypes.War
                 .LowerHeaderRow = 72
                 .outputStartRow = 74
                 .RowNumbersToSkip = Array(3, 71)
+                .maxRows = 48          ' РњР°РєСЃРёРјСѓРј 48 СЂСЏРґРѕРІ (РґРѕ CT)
             End With
             
         Case "7"
             With config
-                .sheetName = "Ангар 7"
+                .sheetName = "пїЅпїЅпїЅпїЅпїЅ 7"
                 .UpperDataStart = 4
                 .UpperDataEnd = 24
                 .UpperHeaderRow = 2
@@ -44,11 +46,12 @@ Public Function GetWarehouseConfig(warehouseNumber As String) As ModuleTypes.War
                 .LowerHeaderRow = 58
                 .outputStartRow = 60
                 .RowNumbersToSkip = Array(3, 57)
+                .maxRows = 50          ' РњР°РєСЃРёРјСѓРј 50 СЂСЏРґРѕРІ (РґРѕ CX)
             End With
             
         Case "8"
             With config
-                .sheetName = "Ангар 8"
+                .sheetName = "пїЅпїЅпїЅпїЅпїЅ 8"
                 .UpperDataStart = 4
                 .UpperDataEnd = 24
                 .UpperHeaderRow = 2
@@ -57,11 +60,12 @@ Public Function GetWarehouseConfig(warehouseNumber As String) As ModuleTypes.War
                 .LowerHeaderRow = 57
                 .outputStartRow = 115
                 .RowNumbersToSkip = Array(3, 56)
+                .maxRows = 51          ' РњР°РєСЃРёРјСѓРј 51 СЂСЏРґ (РґРѕ CZ)
             End With
             
         Case "9"
             With config
-                .sheetName = "Ангар 9"
+                .sheetName = "пїЅпїЅпїЅпїЅпїЅ 9"
                 .UpperDataStart = 4
                 .UpperDataEnd = 33
                 .UpperHeaderRow = 2
@@ -70,11 +74,12 @@ Public Function GetWarehouseConfig(warehouseNumber As String) As ModuleTypes.War
                 .LowerHeaderRow = 81
                 .outputStartRow = 83
                 .RowNumbersToSkip = Array(3, 80)
+                .maxRows = 48          ' РњР°РєСЃРёРјСѓРј 48 СЂСЏРґРѕРІ (РґРѕ CT)
             End With
             
         Case "10"
             With config
-                .sheetName = "Ангар 10"
+                .sheetName = "пїЅпїЅпїЅпїЅпїЅ 10"
                 .UpperDataStart = 4
                 .UpperDataEnd = 34
                 .UpperHeaderRow = 2
@@ -83,11 +88,12 @@ Public Function GetWarehouseConfig(warehouseNumber As String) As ModuleTypes.War
                 .LowerHeaderRow = 80
                 .outputStartRow = 82
                 .RowNumbersToSkip = Array(3, 79)
+                .maxRows = 40          ' РњР°РєСЃРёРјСѓРј 40 СЂСЏРґРѕРІ (РґРѕ CD)
             End With
             
         Case "11"
             With config
-                .sheetName = "Ангар 11"
+                .sheetName = "пїЅпїЅпїЅпїЅпїЅ 11"
                 .UpperDataStart = 4
                 .UpperDataEnd = 27
                 .UpperHeaderRow = 2
@@ -96,11 +102,12 @@ Public Function GetWarehouseConfig(warehouseNumber As String) As ModuleTypes.War
                 .LowerHeaderRow = 67
                 .outputStartRow = 69
                 .RowNumbersToSkip = Array(3, 66)
+                .maxRows = 48          ' РњР°РєСЃРёРјСѓРј 48 СЂСЏРґРѕРІ (РґРѕ CT)
             End With
             
         Case "12"
             With config
-                .sheetName = "Ангар 12"
+                .sheetName = "пїЅпїЅпїЅпїЅпїЅ 12"
                 .UpperDataStart = 4
                 .UpperDataEnd = 27
                 .UpperHeaderRow = 2
@@ -109,6 +116,7 @@ Public Function GetWarehouseConfig(warehouseNumber As String) As ModuleTypes.War
                 .LowerHeaderRow = 68
                 .outputStartRow = 115
                 .RowNumbersToSkip = Array(3, 67)
+                .maxRows = 53          ' РњР°РєСЃРёРјСѓРј 53 СЂСЏРґР° (РґРѕ DD)
             End With
     End Select
     
@@ -118,9 +126,9 @@ End Function
 Public Function GetLevelText(Letter As String, level As String) As String
     Letter = UCase(Letter)
     Select Case level
-        Case "1": GetLevelText = Letter & "/ниж.ряд"
-        Case "2": GetLevelText = Letter & "/2ряд"
-        Case "3": GetLevelText = Letter & "/3ряд"
+        Case "1": GetLevelText = Letter & "/пїЅпїЅпїЅ.пїЅпїЅпїЅ"
+        Case "2": GetLevelText = Letter & "/2пїЅпїЅпїЅ"
+        Case "3": GetLevelText = Letter & "/3пїЅпїЅпїЅ"
         Case Else: GetLevelText = Letter & "/" & level
     End Select
 End Function
@@ -131,7 +139,7 @@ Public Sub GetWarehouseRanges(ByVal warehouseNumber As String, _
                             ByRef upperEnd As Integer, _
                             ByRef lowerStart As Integer, _
                             ByRef lowerEnd As Integer)
-    Dim config As ModuleTypes.WarehouseConfig  ' Исправляем здесь
+    Dim config As ModuleTypes.WarehouseConfig  ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
     config = GetWarehouseConfig(warehouseNumber)
     
     sheetName = config.sheetName
@@ -197,51 +205,51 @@ Public Function FindCellInWarehouse(ws As Worksheet, _
     Set FindCellInWarehouse = foundCell
 End Function
 
-' ===== НОВЫЕ ФУНКЦИИ ДЛЯ РАБОТЫ С СЕКЦИЯМИ =====
+' ===== пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ =====
 
 Public Function DetermineSectionByShelf(Shelf As String, warehouse As String) As String
-    ' Определяет секцию (UPPER/LOWER) по букве стеллажа и номеру ангара
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (UPPER/LOWER) пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     Dim upperShelves As String
     Dim lowerShelves As String
     
-    ' Получаем списки букв для каждого ангара
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     Select Case warehouse
         Case "5", "6"
-            upperShelves = "А,Б,В,Г,Д,Е,Ж,З,ПРЗ"
-            lowerShelves = "ПРИ,И,К,Л,М,Н,О,П,Р"
+            upperShelves = "пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅпїЅпїЅ"
+            lowerShelves = "пїЅпїЅпїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ"
             
         Case "7", "8"
-            upperShelves = "А,Б,В,Г,Д,Е,ПРЕ"
-            lowerShelves = "ПРЖ,Ж,З,И,К,Л,М"
+            upperShelves = "пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅпїЅпїЅ"
+            lowerShelves = "пїЅпїЅпїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ"
             
         Case "9"
-            upperShelves = "А,Б,В,Г,Д,Е,Ж,З,И,ПРИ"
-            lowerShelves = "ПРМ,М,Н,О,П,Р,С,Т,У,Ф"
+            upperShelves = "пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅпїЅпїЅ"
+            lowerShelves = "пїЅпїЅпїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ"
             
         Case "10"
-            upperShelves = "А,Б,В,Г,Д,Е,Ж,З,И,ПРИ"
-            lowerShelves = "ПРК,К,Л,М,Н,О,П,Р,С,Т"
+            upperShelves = "пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅпїЅпїЅ"
+            lowerShelves = "пїЅпїЅпїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ"
             
         Case "11"
-            upperShelves = "А,Б,В,Г,Д,Е,Ж,ПРЗ"
-            lowerShelves = "ПРИ,З,И,К,Л,М,Н,О"
+            upperShelves = "пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅпїЅпїЅ"
+            lowerShelves = "пїЅпїЅпїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ"
             
         Case "12"
-            upperShelves = "А,Б,В,Г,Д,Е,Ж,ПРЖ"
-            lowerShelves = "ПРЗ,З,И,К,Л,М,Н,О"
+            upperShelves = "пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅпїЅпїЅ"
+            lowerShelves = "пїЅпїЅпїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ"
             
         Case Else
-            DetermineSectionByShelf = "UPPER" ' По умолчанию
+            DetermineSectionByShelf = "UPPER" ' пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             Exit Function
     End Select
     
-    ' Проверяем принадлежность к секции
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     If InStr("," & upperShelves & ",", "," & UCase(Shelf) & ",") > 0 Then
         DetermineSectionByShelf = "UPPER"
     ElseIf InStr("," & lowerShelves & ",", "," & UCase(Shelf) & ",") > 0 Then
         DetermineSectionByShelf = "LOWER"
     Else
-        DetermineSectionByShelf = "UPPER" ' По умолчанию, если не найдено
+        DetermineSectionByShelf = "UPPER" ' пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     End If
 End Function
 
@@ -249,7 +257,7 @@ Public Function FindCellInWarehouseSection(ws As Worksheet, _
                                          Letter As String, _
                                          level As String, _
                                          warehouse As String) As Range
-    ' Улучшенная версия поиска ячейки с учетом секций
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     Dim config As ModuleTypes.WarehouseConfig
     config = GetWarehouseConfig(warehouse)
     
@@ -260,14 +268,14 @@ Public Function FindCellInWarehouseSection(ws As Worksheet, _
     Dim searchText As String
     searchText = GetLevelText(Letter, level)
     
-    ' Ищем только в нужной секции
+    ' пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     If section = "UPPER" Then
         Set searchRange = ws.Range("A" & config.UpperDataStart & ":B" & config.UpperDataEnd)
     Else
         Set searchRange = ws.Range("A" & config.LowerDataStart & ":B" & config.LowerDataEnd)
     End If
     
-    ' Поиск с учетом регистра
+    ' пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     Dim foundCell As Range
     Set foundCell = searchRange.Find(What:=searchText, _
                                    LookIn:=xlValues, _
@@ -277,7 +285,7 @@ Public Function FindCellInWarehouseSection(ws As Worksheet, _
                                    MatchCase:=False)
                                    
     If foundCell Is Nothing Then
-        ' Пробуем другой регистр
+        ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         searchText = GetLevelText(LCase(Letter), level)
         Set foundCell = searchRange.Find(What:=searchText, _
                                        LookIn:=xlValues, _
@@ -291,46 +299,46 @@ Public Function FindCellInWarehouseSection(ws As Worksheet, _
 End Function
 
 Public Function GetSectionName(section As String) As String
-    ' Возвращает читаемое название секции
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     Select Case UCase(section)
-        Case "UPPER": GetSectionName = "верхняя"
-        Case "LOWER": GetSectionName = "нижняя"
-        Case Else: GetSectionName = "неизвестная"
+        Case "UPPER": GetSectionName = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ"
+        Case "LOWER": GetSectionName = "пїЅпїЅпїЅпїЅпїЅпїЅ"
+        Case Else: GetSectionName = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ"
     End Select
 End Function
 
 Public Function GetWarehouseSectionsList(warehouse As String) As String
-    ' Возвращает список букв в секциях для отладки
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     Dim result As String
-    result = "Ангар " & warehouse & ":" & vbNewLine
+    result = "пїЅпїЅпїЅпїЅпїЅ " & warehouse & ":" & vbNewLine
     
     Select Case warehouse
         Case "5", "6"
-            result = result & "Верхняя: А,Б,В,Г,Д,Е,Ж,З,ПРЗ" & vbNewLine
-            result = result & "Нижняя: ПРИ,И,К,Л,М,Н,О,П,Р"
+            result = result & "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ: пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅпїЅпїЅ" & vbNewLine
+            result = result & "пїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ"
             
         Case "7", "8"
-            result = result & "Верхняя: А,Б,В,Г,Д,Е,ПРЕ" & vbNewLine
-            result = result & "Нижняя: ПРЖ,Ж,З,И,К,Л,М"
+            result = result & "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ: пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅпїЅпїЅ" & vbNewLine
+            result = result & "пїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ"
             
         Case "9"
-            result = result & "Верхняя: А,Б,В,Г,Д,Е,Ж,З,И,ПРИ" & vbNewLine
-            result = result & "Нижняя: ПРМ,М,Н,О,П,Р,С,Т,У,Ф"
+            result = result & "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ: пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅпїЅпїЅ" & vbNewLine
+            result = result & "пїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ"
             
         Case "10"
-            result = result & "Верхняя: А,Б,В,Г,Д,Е,Ж,З,И,ПРИ" & vbNewLine
-            result = result & "Нижняя: ПРК,К,Л,М,Н,О,П,Р,С,Т"
+            result = result & "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ: пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅпїЅпїЅ" & vbNewLine
+            result = result & "пїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ"
             
         Case "11"
-            result = result & "Верхняя: А,Б,В,Г,Д,Е,Ж,ПРЗ" & vbNewLine
-            result = result & "Нижняя: ПРИ,З,И,К,Л,М,Н,О"
+            result = result & "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ: пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅпїЅпїЅ" & vbNewLine
+            result = result & "пїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ"
             
         Case "12"
-            result = result & "Верхняя: А,Б,В,Г,Д,Е,Ж,ПРЖ" & vbNewLine
-            result = result & "Нижняя: ПРЗ,З,И,К,Л,М,Н,О"
+            result = result & "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ: пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅпїЅпїЅ" & vbNewLine
+            result = result & "пїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ"
             
         Case Else
-            result = result & "Неизвестный ангар!"
+            result = result & "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ!"
     End Select
     
     GetWarehouseSectionsList = result

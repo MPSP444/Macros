@@ -1,58 +1,58 @@
 Attribute VB_Name = "ModuleSmartPlacement"
-' ===== ModuleSmartPlacement - ПОЛНОСТЬЮ ИСПРАВЛЕННАЯ ВЕРСИЯ "ЯЧЕЙКА ЗА ЯЧЕЙКОЙ" =====
-' ? Надо исправить: А1>А2>А3>Б1>Б2>Б3 (вертикальное заполнение каждой буквы)
-' ? НЕ А1>Б1>В1>Г1 (горизонтальное заполнение)
-' ? Проверка каждой ячейки отдельно
-' ? Правильные лимиты по объемам
-' ? Куски от прохода к стене, целые от стены к проходу
+' ===== ModuleSmartPlacement - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ" =====
+' ? пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: пїЅ1>пїЅ2>пїЅ3>пїЅ1>пїЅ2>пїЅ3 (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ)
+' ? пїЅпїЅ пїЅ1>пїЅ1>пїЅ1>пїЅ1 (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
+' ? пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+' ? пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+' ? пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
 Option Explicit
 
-' Структура для информации о размещении
+' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 Public Type PlacementInfo
-    warehouse As String      ' Номер ангара
-    row As String           ' Номер ряда
-    Shelf As String         ' Буква стеллажа
-    level As String         ' Уровень (ярус)
-    ProductName As String   ' Название товара
-    Batch As String         ' Партия
-    quantity As Double      ' Количество для размещения
-    standardVolume As Double ' Объем стандартной паллеты
-    pieceType As String     ' Тип: WHOLE (целая), MEDIUM (средняя), PIECE (кусок)
-    weightCategory As String ' HEAVY, MEDIUM, LIGHT (для ярусов)
-    IsPlaced As Boolean     ' Успешно размещено?
-    ErrorMessage As String  ' Сообщение об ошибке
-    placementDetails As String ' Детали размещения для отчета
+    warehouse As String      ' пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+    row As String           ' пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+    Shelf As String         ' пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    level As String         ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅ)
+    ProductName As String   ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+    Batch As String         ' пїЅпїЅпїЅпїЅпїЅпїЅ
+    quantity As Double      ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    standardVolume As Double ' пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    pieceType As String     ' пїЅпїЅпїЅ: WHOLE (пїЅпїЅпїЅпїЅпїЅ), MEDIUM (пїЅпїЅпїЅпїЅпїЅпїЅпїЅ), PIECE (пїЅпїЅпїЅпїЅпїЅ)
+    weightCategory As String ' HEAVY, MEDIUM, LIGHT (пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ)
+    IsPlaced As Boolean     ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ?
+    ErrorMessage As String  ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+    placementDetails As String ' пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 End Type
 
-' Структура для анализа заполненности стеллажа
+' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 Private Type shelfAnalysis
-    Letter As String        ' Буква (А, Б, В...)
-    totalQuantity As Double ' Общее количество на стеллаже
-    EmptyLevel As String    ' Первый пустой уровень (1, 2, 3)
-    HasProduct As Boolean   ' Есть ли уже товар на этом стеллаже
-    CanAccommodate As Boolean ' Может ли вместить новое количество
-    Priority As Integer     ' Приоритет размещения (1=высший)
-    ShelfLimit As Double    ' Лимит этого стеллажа
-    Level1Quantity As Double ' Количество на уровне 1
-    Level2Quantity As Double ' Количество на уровне 2
-    Level3Quantity As Double ' Количество на уровне 3
-    SuitableLevel As String  ' Подходящий уровень для данного веса
+    Letter As String        ' пїЅпїЅпїЅпїЅпїЅ (пїЅ, пїЅ, пїЅ...)
+    totalQuantity As Double ' пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    EmptyLevel As String    ' пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ (1, 2, 3)
+    HasProduct As Boolean   ' пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    CanAccommodate As Boolean ' пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    Priority As Integer     ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (1=пїЅпїЅпїЅпїЅпїЅпїЅ)
+    ShelfLimit As Double    ' пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    Level1Quantity As Double ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ 1
+    Level2Quantity As Double ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ 2
+    Level3Quantity As Double ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ 3
+    SuitableLevel As String  ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 End Type
 
-' Структура для найденного товара
+' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 Private Type FoundProductInfo
-    warehouse As String     ' Номер ангара
-    startRow As Integer     ' Начальный ряд товара
-    endRow As Integer       ' Конечный ряд товара
-    availableRows As String ' Список доступных рядов
-    section As String      ' Секция (UPPER/LOWER)
-    totalQuantity As Double ' Общее количество товара в ангаре
-    headerRow As Long      ' Строка заголовка
-    productInHeader As String ' Товар в заголовке
+    warehouse As String     ' пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+    startRow As Integer     ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+    endRow As Integer       ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+    availableRows As String ' пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+    section As String      ' пїЅпїЅпїЅпїЅпїЅпїЅ (UPPER/LOWER)
+    totalQuantity As Double ' пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+    headerRow As Long      ' пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    productInHeader As String ' пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 End Type
 
-' ===== ТАБЛИЦЫ ЛИМИТОВ ПО АНГАРАМ И ОБЪЕМАМ =====
+' ===== пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ =====
 
 Private Function GetShelfLimit(warehouseNum As String, productVolume As Double) As Double
     Select Case warehouseNum
@@ -162,104 +162,104 @@ Private Function DetermineWeightCategory(quantity As Double, standardVolume As D
         DetermineWeightCategory = "LIGHT"
     End If
     
-    ModuleLogger.LogDebug "?? Вес: " & quantity & "/" & standardVolume & " = " & _
+    ModuleLogger.LogDebug "?? пїЅпїЅпїЅ: " & quantity & "/" & standardVolume & " = " & _
                          Format(percentage, "0.0") & "% > " & DetermineWeightCategory
 End Function
 
-' ===== ?? ГЛАВНАЯ ФУНКЦИЯ УМНОГО РАЗМЕЩЕНИЯ (ЯЧЕЙКА ЗА ЯЧЕЙКОЙ) =====
+' ===== ?? пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ) =====
 Public Function SmartPlaceProducts(inputText As String) As String
     On Error GoTo ErrorHandler
     
-    ModuleLogger.LogMessage "=== ?? УМНОЕ РАЗМЕЩЕНИЕ 'ЯЧЕЙКА ЗА ЯЧЕЙКОЙ' ==="
-    ModuleLogger.LogMessage "? ИСПРАВЛЕНО: А1>А2>А3>Б1>Б2>Б3 (правильно)"
-    ModuleLogger.LogMessage "? БЫЛО: А1>Б1>В1>Г1 (неправильно)"
+    ModuleLogger.LogMessage "=== ?? пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ 'пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ' ==="
+    ModuleLogger.LogMessage "? пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: пїЅ1>пїЅ2>пїЅ3>пїЅ1>пїЅ2>пїЅ3 (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)"
+    ModuleLogger.LogMessage "? пїЅпїЅпїЅпїЅ: пїЅ1>пїЅ1>пїЅ1>пїЅ1 (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)"
     
-    ' Инициализация систем
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     Call ModuleProductInfo.InitializeProductDatabase
     Call ModuleWarehouseCapacity.InitializeWarehouseCapacities
     
     Application.ScreenUpdating = False
     
-    ' Проверяем активные ангары
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     Dim activeCount As Integer
     activeCount = ModuleWarehouseCapacity.GetActiveWarehouseCount()
     
     If activeCount = 0 Then
-        SmartPlaceProducts = "? НЕ ВЫБРАН НИ ОДИН АКТИВНЫЙ АНГАР!"
+        SmartPlaceProducts = "? пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ!"
         Application.ScreenUpdating = True
         Exit Function
     End If
     
-    ModuleLogger.LogMessage "? Активные ангары: " & ModuleWarehouseCapacity.GetActiveWarehousesList()
+    ModuleLogger.LogMessage "? пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: " & ModuleWarehouseCapacity.GetActiveWarehousesList()
     
-    ' 1. Парсинг с форматом объемов
+    ' 1. пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     Dim placements() As PlacementInfo
     placements = ParseNewFormatInput(inputText)
     
     If UBound(placements) < 0 Then
-        SmartPlaceProducts = "Не найдено корректных данных для размещения!"
+        SmartPlaceProducts = "пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ!"
         Application.ScreenUpdating = True
         Exit Function
     End If
     
-    ' 2. РАЗМЕЩЕНИЕ ЯЧЕЙКА ЗА ЯЧЕЙКОЙ
+    ' 2. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     Dim i As Integer
     Dim successCount As Integer
     successCount = 0
     
     For i = 0 To UBound(placements)
         If placements(i).ProductName <> "" Then
-            ' Определяем категорию веса
+            ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
             placements(i).weightCategory = DetermineWeightCategory(placements(i).quantity, placements(i).standardVolume)
             
-            ModuleLogger.LogMessage "?? РАЗМЕЩЕНИЕ ячейка-за-ячейкой: " & placements(i).ProductName & " - " & _
+            ModuleLogger.LogMessage "?? пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ-пїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅ: " & placements(i).ProductName & " - " & _
                                    placements(i).quantity & " (" & placements(i).standardVolume & ") - " & _
-                                   placements(i).pieceType & " - Вес: " & placements(i).weightCategory
+                                   placements(i).pieceType & " - пїЅпїЅпїЅ: " & placements(i).weightCategory
             
-            ' ?? ИСПОЛЬЗУЕМ ЛОГИКУ ЯЧЕЙКА ЗА ЯЧЕЙКОЙ
+            ' ?? пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             If SmartPlaceWithCellByCell(placements(i)) Then
                 successCount = successCount + 1
-                ModuleLogger.LogSuccess "? Размещено ячейка-за-ячейкой: " & placements(i).ProductName
+                ModuleLogger.LogSuccess "? пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ-пїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅ: " & placements(i).ProductName
             Else
-                ModuleLogger.LogError "? Ошибка размещения: " & placements(i).ProductName & " - " & placements(i).ErrorMessage
+                ModuleLogger.LogError "? пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: " & placements(i).ProductName & " - " & placements(i).ErrorMessage
             End If
         End If
     Next i
     
-    ' 3. Генерация отчета
+    ' 3. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     Dim report As String
-    report = GenerateCellByCellReport(placements, successCount, activeCount)  ' ? ИСПРАВЛЕНО: убран пробел
+    report = GenerateCellByCellReport(placements, successCount, activeCount)  ' ? пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     
     Application.ScreenUpdating = True
     
-    ModuleLogger.LogMessage "=== ?? ЗАВЕРШЕНИЕ РАЗМЕЩЕНИЯ 'ЯЧЕЙКА ЗА ЯЧЕЙКОЙ' ==="
-    ModuleLogger.LogSuccess "Успешно размещено: " & successCount & " из " & (UBound(placements) + 1)
+    ModuleLogger.LogMessage "=== ?? пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ 'пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ' ==="
+    ModuleLogger.LogSuccess "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: " & successCount & " пїЅпїЅ " & (UBound(placements) + 1)
     
     SmartPlaceProducts = report
     Exit Function
     
 ErrorHandler:
     Application.ScreenUpdating = True
-    SmartPlaceProducts = "Критическая ошибка: " & Err.description
-    ModuleLogger.LogError "КРИТИЧЕСКАЯ ОШИБКА: " & Err.description
+    SmartPlaceProducts = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: " & Err.description
+    ModuleLogger.LogError "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: " & Err.description
 End Function
 
-' ===== ?? РАЗМЕЩЕНИЕ С ЛОГИКОЙ ЯЧЕЙКА ЗА ЯЧЕЙКОЙ =====
+' ===== ?? пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ =====
 Private Function SmartPlaceWithCellByCell(ByRef placement As PlacementInfo) As Boolean
     On Error GoTo ErrorHandler
     
-    ModuleLogger.LogMessage "?? РАЗМЕЩЕНИЕ ячейка-за-ячейкой: " & placement.ProductName & _
+    ModuleLogger.LogMessage "?? пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ-пїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅ: " & placement.ProductName & _
                            " (" & placement.quantity & "/" & placement.standardVolume & ") - " & _
-                           placement.pieceType & " - Вес: " & placement.weightCategory
+                           placement.pieceType & " - пїЅпїЅпїЅ: " & placement.weightCategory
     
-    ' ШАГ 1: Найти ангар с максимальным количеством этого товара
+    ' пїЅпїЅпїЅ 1: пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     Dim bestWarehouse As String
     bestWarehouse = FindWarehouseWithMaxProduct(placement.ProductName)
     
     If bestWarehouse <> "" Then
-        ModuleLogger.LogSuccess "?? Лучший ангар для '" & placement.ProductName & "': " & bestWarehouse
+        ModuleLogger.LogSuccess "?? пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ '" & placement.ProductName & "': " & bestWarehouse
         
-        ' ШАГ 2: Попробовать разместить в лучшем ангаре (ЯЧЕЙКА ЗА ЯЧЕЙКОЙ)
+        ' пїЅпїЅпїЅ 2: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
         If TryPlaceInBestWarehouseCellByCell(placement, bestWarehouse) Then
             placement.IsPlaced = True
             SmartPlaceWithCellByCell = True
@@ -267,51 +267,51 @@ Private Function SmartPlaceWithCellByCell(ByRef placement As PlacementInfo) As B
         End If
     End If
     
-    ' ШАГ 3: Если не удалось в лучшем ангаре, ищем в других активных (ЯЧЕЙКА ЗА ЯЧЕЙКОЙ)
+    ' пїЅпїЅпїЅ 3: пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
     If TryPlaceInAnyActiveWarehouseCellByCell(placement) Then
         placement.IsPlaced = True
         SmartPlaceWithCellByCell = True
         Exit Function
     End If
     
-    ' Не удалось разместить
-    placement.ErrorMessage = "Не найдено места с учетом проверки каждой ячейки"
+    ' пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    placement.ErrorMessage = "пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ"
     placement.IsPlaced = False
     SmartPlaceWithCellByCell = False
     Exit Function
     
 ErrorHandler:
-    placement.ErrorMessage = "Ошибка размещения ячейка-за-ячейкой: " & Err.description
+    placement.ErrorMessage = "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ-пїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅ: " & Err.description
     SmartPlaceWithCellByCell = False
 End Function
 
-' ===== РАЗМЕЩЕНИЕ В ЛУЧШЕМ АНГАРЕ (ЯЧЕЙКА ЗА ЯЧЕЙКОЙ) =====
+' ===== пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ) =====
 Private Function TryPlaceInBestWarehouseCellByCell(ByRef placement As PlacementInfo, warehouse As String) As Boolean
-    ModuleLogger.LogMessage "?? Размещение в лучшем ангаре " & warehouse & " (ячейка-за-ячейкой)"
+    ModuleLogger.LogMessage "?? пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ " & warehouse & " (пїЅпїЅпїЅпїЅпїЅпїЅ-пїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅ)"
     
-    ' Ищем существующий товар в этом ангаре
+    ' пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     Dim existingProduct As FoundProductInfo
     existingProduct = FindProductInWarehouseHeaders(placement.ProductName, warehouse)
     
     If existingProduct.startRow > 0 Then
-        ModuleLogger.LogSuccess "? Товар найден в рядах: " & existingProduct.availableRows & " - проверяем каждую ячейку"
+        ModuleLogger.LogSuccess "? пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ: " & existingProduct.availableRows & " - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ"
         
-        ' Пробуем добить существующие ряды с логикой ЯЧЕЙКА ЗА ЯЧЕЙКОЙ
+        ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         If TryPlaceInExistingRowsCellByCell(placement, existingProduct, warehouse) Then
             TryPlaceInBestWarehouseCellByCell = True
             Exit Function
         End If
         
-        ' Ищем соседние пустые ряды
-        ModuleLogger.LogMessage "?? Ищем соседние пустые ряды..."
+        ' пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+        ModuleLogger.LogMessage "?? пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ..."
         If FindAdjacentEmptyRowsCellByCell(placement, warehouse, existingProduct) Then
-            ModuleLogger.LogSuccess "? Размещено в соседнем ряду (ячейка-за-ячейкой)!"
+            ModuleLogger.LogSuccess "? пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅ-пїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅ)!"
             TryPlaceInBestWarehouseCellByCell = True
             Exit Function
         End If
     End If
     
-    ' Ищем пустые ряды
+    ' пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
     If FindEmptyRowCellByCell(placement, warehouse) Then
         TryPlaceInBestWarehouseCellByCell = True
         Exit Function
@@ -320,18 +320,18 @@ Private Function TryPlaceInBestWarehouseCellByCell(ByRef placement As PlacementI
     TryPlaceInBestWarehouseCellByCell = False
 End Function
 
-' ===== РАЗМЕЩЕНИЕ В СУЩЕСТВУЮЩИХ РЯДАХ (ЯЧЕЙКА ЗА ЯЧЕЙКОЙ) =====
+' ===== пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ) =====
 Private Function TryPlaceInExistingRowsCellByCell(ByRef placement As PlacementInfo, _
                                                  existingProduct As FoundProductInfo, _
                                                  warehouse As String) As Boolean
     
-    ModuleLogger.LogMessage "?? РАЗМЕЩЕНИЕ ячейка-за-ячейкой в существующих рядах"
+    ModuleLogger.LogMessage "?? пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ-пїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ"
     
-    ' Разбираем список рядов
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
     Dim rows() As String
     rows = Split(existingProduct.availableRows, ",")
     
-    ' Пробуем каждый ряд с логикой ячейка-за-ячейкой
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ-пїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     Dim i As Integer
     For i = 0 To UBound(rows)
         Dim rowNum As String
@@ -346,21 +346,21 @@ Private Function TryPlaceInExistingRowsCellByCell(ByRef placement As PlacementIn
     TryPlaceInExistingRowsCellByCell = False
 End Function
 
-' ===== ?? ГЛАВНАЯ ФУНКЦИЯ: РАЗМЕЩЕНИЕ В РЯДУ (ЯЧЕЙКА ЗА ЯЧЕЙКОЙ) =====
+' ===== ?? пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ) =====
 Private Function TryPlaceInRowCellByCell(ByRef placement As PlacementInfo, warehouse As String, _
                                         rowNum As String, section As String) As Boolean
     On Error GoTo ErrorHandler
     
-    ModuleLogger.LogMessage "?? РАЗМЕЩЕНИЕ ячейка-за-ячейкой в ряду " & rowNum & " секции " & ModuleConfig.GetSectionName(section)
+    ModuleLogger.LogMessage "?? пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ-пїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ " & rowNum & " пїЅпїЅпїЅпїЅпїЅпїЅ " & ModuleConfig.GetSectionName(section)
     
-    ' Получаем конфигурацию ангара
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     Dim config As ModuleTypes.WarehouseConfig
     config = ModuleConfig.GetWarehouseConfig(warehouse)
     
     Dim ws As Worksheet
     Set ws = ActiveWorkbook.Worksheets(config.sheetName)
     
-    ' Проверяем лимит ряда
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
     Dim currentRowTotal As Double
     currentRowTotal = CalculateRowTotalWithVolumes(ws, rowNum, section, warehouse)
     
@@ -368,44 +368,44 @@ Private Function TryPlaceInRowCellByCell(ByRef placement As PlacementInfo, wareh
     rowLimit = GetRowLimit(warehouse, placement.standardVolume)
     
     If currentRowTotal + placement.quantity > rowLimit Then
-        ModuleLogger.LogWarning "? Ряд " & rowNum & " переполнен: " & (currentRowTotal + placement.quantity) & " > " & rowLimit
+        ModuleLogger.LogWarning "? пїЅпїЅпїЅ " & rowNum & " пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: " & (currentRowTotal + placement.quantity) & " > " & rowLimit
         TryPlaceInRowCellByCell = False
         Exit Function
     End If
     
-    ' ?? ИЩЕМ ТОЧНОЕ МЕСТО: А1>А2>А3>Б1>Б2>Б3...
+    ' ?? пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ: пїЅ1>пїЅ2>пїЅ3>пїЅ1>пїЅ2>пїЅ3...
     Dim exactLocation As String
     exactLocation = FindExactCellForPlacement(ws, warehouse, rowNum, section, placement)
     
     If exactLocation = "" Then
-        ModuleLogger.LogDebug "? Нет свободных ячеек в ряду " & rowNum
+        ModuleLogger.LogDebug "? пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ " & rowNum
         TryPlaceInRowCellByCell = False
         Exit Function
     End If
     
-    ' Парсим точное место
+    ' пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
     Dim locationParts() As String
     locationParts = Split(exactLocation, "-")
     
     If UBound(locationParts) < 1 Then
-        ModuleLogger.LogError "? Ошибка парсинга места: " & exactLocation
+        ModuleLogger.LogError "? пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ: " & exactLocation
         TryPlaceInRowCellByCell = False
         Exit Function
     End If
     
-    ' Размещаем товар в точном месте
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
     placement.warehouse = warehouse
     placement.row = rowNum
     placement.Shelf = locationParts(0)
     placement.level = locationParts(1)
     
     If PlaceInExactCell(placement, section) Then
-        placement.placementDetails = "Ангар " & placement.warehouse & "-" & placement.row & "-" & _
+        placement.placementDetails = "пїЅпїЅпїЅпїЅпїЅ " & placement.warehouse & "-" & placement.row & "-" & _
                                    placement.Shelf & "-" & placement.level & " - " & _
                                    placement.ProductName & " (" & placement.Batch & ") - " & _
                                    placement.quantity & " "
         
-        ModuleLogger.LogSuccess "?? РАЗМЕЩЕНО ТОЧНО: " & placement.placementDetails
+        ModuleLogger.LogSuccess "?? пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ: " & placement.placementDetails
         TryPlaceInRowCellByCell = True
     Else
         TryPlaceInRowCellByCell = False
@@ -414,22 +414,22 @@ Private Function TryPlaceInRowCellByCell(ByRef placement As PlacementInfo, wareh
     Exit Function
     
 ErrorHandler:
-    ModuleLogger.LogError "Ошибка размещения ячейка-за-ячейкой: " & Err.description
+    ModuleLogger.LogError "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ-пїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅ: " & Err.description
     TryPlaceInRowCellByCell = False
 End Function
 
-' ===== ?? КЛЮЧЕВАЯ ФУНКЦИЯ: ПОИСК ТОЧНОГО МЕСТА ПО ЯЧЕЙКАМ =====
+' ===== ?? пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ =====
 Private Function FindExactCellForPlacement(ws As Worksheet, warehouse As String, rowNum As String, _
                                          section As String, placement As PlacementInfo) As String
-    ' Возвращает точное место в формате "А-2" (буква-ярус)
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ "пїЅ-2" (пїЅпїЅпїЅпїЅпїЅ-пїЅпїЅпїЅпїЅ)
     
-    ModuleLogger.LogMessage "?? ПОИСК МЕСТА ячейка-за-ячейкой в ряду " & rowNum
+    ModuleLogger.LogMessage "?? пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ-пїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ " & rowNum
     
-    ' Получаем список букв в правильном порядке
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     Dim letters() As String
     letters = GetLettersWithCorrectDirection(warehouse, section, placement.pieceType)
     
-    ' Получаем конфигурацию
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     Dim config As ModuleTypes.WarehouseConfig
     config = ModuleConfig.GetWarehouseConfig(warehouse)
     
@@ -445,35 +445,35 @@ Private Function FindExactCellForPlacement(ws As Worksheet, warehouse As String,
     Dim valueColumn As Long
     valueColumn = 3 + (CLng(rowNum) - 1) * 2
     
-    ' ?? ПРОВЕРЯЕМ КАЖДУЮ БУКВУ И КАЖДЫЙ ЯРУС
+    ' ?? пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
     Dim i As Integer
     For i = 0 To UBound(letters)
         Dim currentLetter As String
         currentLetter = letters(i)
         
-        ModuleLogger.LogDebug "?? Проверяем букву " & currentLetter & " по ярусам..."
+        ModuleLogger.LogDebug "?? пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ " & currentLetter & " пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ..."
         
-        ' Анализируем эту букву детально
+        ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         Dim letterAnalysis As shelfAnalysis
         letterAnalysis = AnalyzeSingleShelfDetailed(ws, currentLetter, valueColumn, dataStart, dataEnd, _
                                                    warehouse, placement.standardVolume)
         
-        ' ?? ИЩЕМ ТОЧНОЕ МЕСТО ПО ЯРУСАМ: 1>2>3
+        ' ?? пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: 1>2>3
         Dim exactCell As String
         exactCell = FindExactLevelInShelf(letterAnalysis, placement.quantity, placement.weightCategory)
         
         If exactCell <> "" Then
-            ModuleLogger.LogSuccess "? НАЙДЕНО МЕСТО: " & currentLetter & "-" & exactCell
+            ModuleLogger.LogSuccess "? пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ: " & currentLetter & "-" & exactCell
             FindExactCellForPlacement = currentLetter & "-" & exactCell
             Exit Function
         End If
     Next i
     
-    ModuleLogger.LogWarning "? Нет свободных ячеек в ряду " & rowNum
+    ModuleLogger.LogWarning "? пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ " & rowNum
     FindExactCellForPlacement = ""
 End Function
 
-' ===== ?? ДЕТАЛЬНЫЙ АНАЛИЗ ОДНОЙ БУКВЫ =====
+' ===== ?? пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ =====
 Private Function AnalyzeSingleShelfDetailed(ws As Worksheet, shelfLetter As String, valueColumn As Long, _
                                            dataStart As Long, dataEnd As Long, warehouse As String, _
                                            productVolume As Double) As shelfAnalysis
@@ -487,9 +487,9 @@ Private Function AnalyzeSingleShelfDetailed(ws As Worksheet, shelfLetter As Stri
     analysis.Level3Quantity = 0
     analysis.HasProduct = False
     
-    ModuleLogger.LogDebug "?? Детальный анализ буквы " & shelfLetter & " (лимит: " & analysis.ShelfLimit & ")"
+    ModuleLogger.LogDebug "?? пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ " & shelfLetter & " (пїЅпїЅпїЅпїЅпїЅ: " & analysis.ShelfLimit & ")"
     
-    ' Проверяем каждый ярус: 1, 2, 3
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ: 1, 2, 3
     Dim level As Integer
     For level = 1 To 3
         Dim searchText As String
@@ -503,17 +503,17 @@ Private Function AnalyzeSingleShelfDetailed(ws As Worksheet, shelfLetter As Stri
             Dim cellValue As Double
             cellValue = GetNumericValueSafe(ws.Cells(foundCell.row, valueColumn))
             
-            ' Записываем количество по ярусам
+            ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
             Select Case level
                 Case 1:
                     analysis.Level1Quantity = cellValue
-                    ModuleLogger.LogDebug "   Ярус 1: " & cellValue
+                    ModuleLogger.LogDebug "   пїЅпїЅпїЅпїЅ 1: " & cellValue
                 Case 2:
                     analysis.Level2Quantity = cellValue
-                    ModuleLogger.LogDebug "   Ярус 2: " & cellValue
+                    ModuleLogger.LogDebug "   пїЅпїЅпїЅпїЅ 2: " & cellValue
                 Case 3:
                     analysis.Level3Quantity = cellValue
-                    ModuleLogger.LogDebug "   Ярус 3: " & cellValue
+                    ModuleLogger.LogDebug "   пїЅпїЅпїЅпїЅ 3: " & cellValue
             End Select
             
             analysis.totalQuantity = analysis.totalQuantity + cellValue
@@ -521,60 +521,60 @@ Private Function AnalyzeSingleShelfDetailed(ws As Worksheet, shelfLetter As Stri
         End If
     Next level
     
-    ModuleLogger.LogDebug "?? Буква " & shelfLetter & " итого: " & analysis.totalQuantity & "/" & analysis.ShelfLimit
+    ModuleLogger.LogDebug "?? пїЅпїЅпїЅпїЅпїЅ " & shelfLetter & " пїЅпїЅпїЅпїЅпїЅ: " & analysis.totalQuantity & "/" & analysis.ShelfLimit
     
     AnalyzeSingleShelfDetailed = analysis
 End Function
 
-' ===== ?? ПОИСК ТОЧНОГО ЯРУСА В БУКВЕ =====
+' ===== ?? пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ =====
 Private Function FindExactLevelInShelf(shelfAnalysis As shelfAnalysis, quantity As Double, _
                                       weightCategory As String) As String
     
-    ' Проверяем, поместится ли товар в эту букву
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
     If shelfAnalysis.totalQuantity + quantity > shelfAnalysis.ShelfLimit Then
-        ModuleLogger.LogDebug "? Буква " & shelfAnalysis.Letter & " переполнена: " & _
+        ModuleLogger.LogDebug "? пїЅпїЅпїЅпїЅпїЅ " & shelfAnalysis.Letter & " пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: " & _
                              (shelfAnalysis.totalQuantity + quantity) & " > " & shelfAnalysis.ShelfLimit
         FindExactLevelInShelf = ""
         Exit Function
     End If
     
-    ' ?? ВЕРТИКАЛЬНЫЙ ПОИСК: 1>2>3
+    ' ?? пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ: 1>2>3
     
-    ' Ярус 1 (пол)
+    ' пїЅпїЅпїЅпїЅ 1 (пїЅпїЅпїЅ)
     If shelfAnalysis.Level1Quantity = 0 Then
-        ModuleLogger.LogDebug "? Ярус 1 свободен"
+        ModuleLogger.LogDebug "? пїЅпїЅпїЅпїЅ 1 пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ"
         FindExactLevelInShelf = "1"
         Exit Function
     End If
     
-    ' Ярус 2 (средний)
+    ' пїЅпїЅпїЅпїЅ 2 (пїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
     If shelfAnalysis.Level2Quantity = 0 And shelfAnalysis.Level1Quantity > 0 Then
         If weightCategory = "HEAVY" Then
-            ModuleLogger.LogWarning "?? ТЯЖЕЛОЕ на ярус 2 - проверить безопасность"
+            ModuleLogger.LogWarning "?? пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ 2 - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ"
         End If
-        ModuleLogger.LogDebug "? Ярус 2 свободен"
+        ModuleLogger.LogDebug "? пїЅпїЅпїЅпїЅ 2 пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ"
         FindExactLevelInShelf = "2"
         Exit Function
     End If
     
-    ' Ярус 3 (верх)
+    ' пїЅпїЅпїЅпїЅ 3 (пїЅпїЅпїЅпїЅ)
     If shelfAnalysis.Level3Quantity = 0 And shelfAnalysis.Level2Quantity > 0 And shelfAnalysis.Level1Quantity > 0 Then
         If weightCategory = "HEAVY" Then
-            ModuleLogger.LogWarning "? ТЯЖЕЛОЕ нельзя на ярус 3"
+            ModuleLogger.LogWarning "? пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ 3"
             FindExactLevelInShelf = ""
             Exit Function
         End If
-        ModuleLogger.LogDebug "? Ярус 3 свободен"
+        ModuleLogger.LogDebug "? пїЅпїЅпїЅпїЅ 3 пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ"
         FindExactLevelInShelf = "3"
         Exit Function
     End If
     
-    ' Все ярусы заняты
-    ModuleLogger.LogDebug "? Все ярусы в букве " & shelfAnalysis.Letter & " заняты"
+    ' пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+    ModuleLogger.LogDebug "? пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ " & shelfAnalysis.Letter & " пїЅпїЅпїЅпїЅпїЅпїЅ"
     FindExactLevelInShelf = ""
 End Function
 
-' ===== РАЗМЕЩЕНИЕ В ТОЧНОЙ ЯЧЕЙКЕ =====
+' ===== пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ =====
 Private Function PlaceInExactCell(ByRef placement As PlacementInfo, section As String) As Boolean
     On Error GoTo ErrorHandler
     
@@ -601,7 +601,7 @@ Private Function PlaceInExactCell(ByRef placement As PlacementInfo, section As S
         What:=searchText, LookIn:=xlValues, LookAt:=xlWhole)
     
     If targetCell Is Nothing Then
-        placement.ErrorMessage = "Не найдена ячейка " & searchText
+        placement.ErrorMessage = "пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ " & searchText
         PlaceInExactCell = False
         Exit Function
     End If
@@ -612,33 +612,33 @@ Private Function PlaceInExactCell(ByRef placement As PlacementInfo, section As S
     Dim batchColumn As Long
     batchColumn = valueColumn + 1
     
-    ' Записываем данные
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     ws.Cells(targetCell.row, valueColumn).value = placement.quantity
     ws.Cells(targetCell.row, batchColumn).value = placement.Batch
     
-    ' ?? ЦВЕТОВАЯ СХЕМА ДЛЯ ЯЧЕЙКА-ЗА-ЯЧЕЙКОЙ
+    ' ?? пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ-пїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     Dim highlightColor As Long
     Select Case placement.pieceType
         Case "WHOLE"
-            ' Целая палета (например, 720 из 720)
-            highlightColor = RGB(0, 176, 80)   ' Насыщенный зеленый
+            ' пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, 720 пїЅпїЅ 720)
+            highlightColor = RGB(0, 176, 80)   ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     
         Case "MEDIUM"
-            ' Средний объем (например, 650 из 720)
-            highlightColor = RGB(146, 208, 80) ' Светло-зеленый
+            ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, 650 пїЅпїЅ 720)
+            highlightColor = RGB(146, 208, 80) ' пїЅпїЅпїЅпїЅпїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     
         Case "PIECE"
-            ' Кусок (например, 150 из 720)
-            highlightColor = RGB(255, 255, 0)  ' Желтый
+            ' пїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, 150 пїЅпїЅ 720)
+            highlightColor = RGB(255, 255, 0)  ' пїЅпїЅпїЅпїЅпїЅпїЅ
     
         Case Else
-            ' Цвет по умолчанию, если тип не определен
-            highlightColor = RGB(217, 217, 217) ' Серый
+            ' пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+            highlightColor = RGB(217, 217, 217) ' пїЅпїЅпїЅпїЅпїЅ
     End Select
     
-    ' Специальная индикация
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     If placement.pieceType = "PIECE" Then
-        ' Красная граница для кусков
+        ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         With ws.Cells(targetCell.row, valueColumn).Borders
             .LineStyle = xlContinuous
             .Weight = xlThick
@@ -650,7 +650,7 @@ Private Function PlaceInExactCell(ByRef placement As PlacementInfo, section As S
             .Color = RGB(255, 0, 0)
         End With
     Else
-        ' Синяя граница для правильного размещения ячейка-за-ячейкой
+        ' пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ-пїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         With ws.Cells(targetCell.row, valueColumn).Borders
             .LineStyle = xlContinuous
             .Weight = xlThick
@@ -666,7 +666,7 @@ Private Function PlaceInExactCell(ByRef placement As PlacementInfo, section As S
     ws.Cells(targetCell.row, valueColumn).Interior.Color = highlightColor
     ws.Cells(targetCell.row, batchColumn).Interior.Color = highlightColor
     
-    ModuleLogger.LogSuccess "?? ЯЧЕЙКА-ЗА-ЯЧЕЙКОЙ в " & targetCell.address & " ярус " & placement.level & _
+    ModuleLogger.LogSuccess "?? пїЅпїЅпїЅпїЅпїЅпїЅ-пїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ " & targetCell.address & " пїЅпїЅпїЅпїЅ " & placement.level & _
                           " [" & placement.pieceType & "/" & placement.weightCategory & "] " & _
                           placement.Shelf & "-" & placement.level
     
@@ -674,16 +674,16 @@ Private Function PlaceInExactCell(ByRef placement As PlacementInfo, section As S
     Exit Function
     
 ErrorHandler:
-    placement.ErrorMessage = "Ошибка размещения в ячейке: " & Err.description
+    placement.ErrorMessage = "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: " & Err.description
     PlaceInExactCell = False
 End Function
 
-' ===== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ (ДОБАВЛЕНЫ ИЗ ДОКУМЕНТА №2) =====
+' ===== пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ2) =====
 
 Private Function TryPlaceInAnyActiveWarehouseCellByCell(ByRef placement As PlacementInfo) As Boolean
-    ModuleLogger.LogMessage "?? Поиск места в любом активном ангаре (ячейка-за-ячейкой)"
+    ModuleLogger.LogMessage "?? пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅ-пїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅ)"
     
-    ' Проходим по всем активным ангарам
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     Dim warehouse As Integer
     For warehouse = 5 To 12
         If ModuleWarehouseCapacity.IsWarehouseActive(CStr(warehouse)) Then
@@ -701,55 +701,55 @@ End Function
 Private Function FindAdjacentEmptyRowsCellByCell(ByRef placement As PlacementInfo, warehouse As String, _
                                                 existingProduct As FoundProductInfo) As Boolean
     On Error GoTo ErrorHandler
-    
-    ModuleLogger.LogMessage "?? Поиск соседних пустых рядов (ячейка-за-ячейкой)"
-    
-    ' Парсим существующие ряды
+
+    ModuleLogger.LogMessage "?? пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅ-пїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅ)"
+
+    ' пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
     Dim existingRows() As String
     existingRows = Split(existingProduct.availableRows, ",")
-    
-    ' Находим минимальный и максимальный ряды
+
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
     Dim minRow As Integer, maxRow As Integer
     minRow = 999
     maxRow = 0
-    
+
     Dim i As Integer
     For i = 0 To UBound(existingRows)
         Dim currentRowNum As Integer
         currentRowNum = CInt(Trim(existingRows(i)))
-        
+
         If currentRowNum < minRow Then minRow = currentRowNum
         If currentRowNum > maxRow Then maxRow = currentRowNum
     Next i
-    
-    ModuleLogger.LogMessage "?? Диапазон существующих рядов: " & minRow & " - " & maxRow
-    
-    ' Получаем конфигурацию ангара
+
+    ModuleLogger.LogMessage "?? пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ: " & minRow & " - " & maxRow
+
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     Dim config As ModuleTypes.WarehouseConfig
     config = ModuleConfig.GetWarehouseConfig(warehouse)
-    
+
     Dim ws As Worksheet
     Set ws = ActiveWorkbook.Worksheets(config.sheetName)
-    
+
     Dim targetSection As String
     targetSection = existingProduct.section
-    
+
     Dim headerRow As Long
     If targetSection = "UPPER" Then
         headerRow = config.UpperHeaderRow
     Else
         headerRow = config.LowerHeaderRow
     End If
-    
-    ' Проверяем соседние ряды
+
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
     Dim distance As Integer
     For distance = 1 To 10
-        ' Справа от максимального
+        ' пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         Dim rightRow As Integer
         rightRow = maxRow + distance
-        If rightRow >= 1 And rightRow <= 60 Then
+        If rightRow >= 1 And rightRow <= config.maxRows Then
             If IsRowCompletelyEmpty(ws, CStr(rightRow), headerRow, targetSection, warehouse) Then
-                ModuleLogger.LogSuccess "? Найден соседний пустой ряд: " & rightRow
+                ModuleLogger.LogSuccess "? пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ: " & rightRow
                 
                 If CreateNewHeaderAndPlaceCellByCell(placement, warehouse, CStr(rightRow), targetSection) Then
                     FindAdjacentEmptyRowsCellByCell = True
@@ -758,12 +758,12 @@ Private Function FindAdjacentEmptyRowsCellByCell(ByRef placement As PlacementInf
             End If
         End If
         
-        ' Слева от минимального
+        ' пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         Dim leftRow As Integer
         leftRow = minRow - distance
-        If leftRow >= 1 And leftRow <= 60 Then
+        If leftRow >= 1 And leftRow <= config.maxRows Then
             If IsRowCompletelyEmpty(ws, CStr(leftRow), headerRow, targetSection, warehouse) Then
-                ModuleLogger.LogSuccess "? Найден соседний пустой ряд: " & leftRow
+                ModuleLogger.LogSuccess "? пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ: " & leftRow
                 
                 If CreateNewHeaderAndPlaceCellByCell(placement, warehouse, CStr(leftRow), targetSection) Then
                     FindAdjacentEmptyRowsCellByCell = True
@@ -777,24 +777,24 @@ Private Function FindAdjacentEmptyRowsCellByCell(ByRef placement As PlacementInf
     Exit Function
     
 ErrorHandler:
-    ModuleLogger.LogError "Ошибка поиска соседних рядов: " & Err.description
+    ModuleLogger.LogError "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ: " & Err.description
     FindAdjacentEmptyRowsCellByCell = False
 End Function
 
 Private Function FindEmptyRowCellByCell(ByRef placement As PlacementInfo, warehouse As String) As Boolean
-    ModuleLogger.LogMessage "?? Поиск пустого ряда в ангаре " & warehouse & " (ячейка-за-ячейкой)"
-    
-    ' Получаем конфигурацию ангара
+    ModuleLogger.LogMessage "?? пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ " & warehouse & " (пїЅпїЅпїЅпїЅпїЅпїЅ-пїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅ)"
+
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     Dim config As ModuleTypes.WarehouseConfig
     config = ModuleConfig.GetWarehouseConfig(warehouse)
-    
+
     Dim ws As Worksheet
     Set ws = ActiveWorkbook.Worksheets(config.sheetName)
-    
-    ' Ищем в верхней секции
+
+    ' пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     If config.UpperHeaderRow > 0 Then
         Dim r As Integer
-        For r = 1 To 60
+        For r = 1 To config.maxRows
             If IsRowCompletelyEmpty(ws, CStr(r), config.UpperHeaderRow, "UPPER", warehouse) Then
                 If CreateNewHeaderAndPlaceCellByCell(placement, warehouse, CStr(r), "UPPER") Then
                     FindEmptyRowCellByCell = True
@@ -803,10 +803,10 @@ Private Function FindEmptyRowCellByCell(ByRef placement As PlacementInfo, wareho
             End If
         Next r
     End If
-    
-    ' Ищем в нижней секции
+
+    ' пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     If config.LowerHeaderRow > 0 Then
-        For r = 1 To 60
+        For r = 1 To config.maxRows
             If IsRowCompletelyEmpty(ws, CStr(r), config.LowerHeaderRow, "LOWER", warehouse) Then
                 If CreateNewHeaderAndPlaceCellByCell(placement, warehouse, CStr(r), "LOWER") Then
                     FindEmptyRowCellByCell = True
@@ -815,15 +815,15 @@ Private Function FindEmptyRowCellByCell(ByRef placement As PlacementInfo, wareho
             End If
         Next r
     End If
-    
+
     FindEmptyRowCellByCell = False
 End Function
 
 Private Function CreateNewHeaderAndPlaceCellByCell(ByRef placement As PlacementInfo, warehouse As String, _
                                                   rowNum As String, section As String) As Boolean
-    ModuleLogger.LogMessage "?? Создаем заголовок для '" & placement.ProductName & "' в ряду " & rowNum & " (ячейка-за-ячейкой)"
+    ModuleLogger.LogMessage "?? пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ '" & placement.ProductName & "' пїЅ пїЅпїЅпїЅпїЅ " & rowNum & " (пїЅпїЅпїЅпїЅпїЅпїЅ-пїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅ)"
     
-    ' Получаем конфигурацию
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     Dim config As ModuleTypes.WarehouseConfig
     config = ModuleConfig.GetWarehouseConfig(warehouse)
     
@@ -842,23 +842,23 @@ Private Function CreateNewHeaderAndPlaceCellByCell(ByRef placement As PlacementI
         Exit Function
     End If
     
-    ' Создаем заголовок
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     Call CreateMergedHeader(ws, placement.ProductName, rowNum, headerRow)
     
-    ' Размещаем товар методом ячейка-за-ячейкой
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ-пїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     If TryPlaceInRowCellByCell(placement, warehouse, rowNum, section) Then
-        ModuleLogger.LogSuccess "? Создан заголовок и размещен товар (ячейка-за-ячейкой)"
+        ModuleLogger.LogSuccess "? пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅ-пїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅ)"
         CreateNewHeaderAndPlaceCellByCell = True
     Else
         CreateNewHeaderAndPlaceCellByCell = False
     End If
 End Function
 
-' ===== ДОБАВЛЕНЫ НЕДОСТАЮЩИЕ ФУНКЦИИ ИЗ ДОКУМЕНТА №2 =====
+' ===== пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ2 =====
 
 Private Function IsRowCompletelyEmpty(ws As Worksheet, rowNum As String, headerRow As Long, _
                                     section As String, warehouse As String) As Boolean
-    ' Проверяем заголовок
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     If headerRow > 0 Then
         Dim headerCol As Long
         headerCol = 3 + (CLng(rowNum) - 1) * 2
@@ -872,7 +872,7 @@ Private Function IsRowCompletelyEmpty(ws As Worksheet, rowNum As String, headerR
         End If
     End If
     
-    ' Проверяем данные
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     Dim totalInRow As Double
     totalInRow = CalculateRowTotalWithVolumes(ws, rowNum, section, warehouse)
     
@@ -913,34 +913,34 @@ End Sub
 
 Private Function GetLettersWithCorrectDirection(warehouse As String, section As String, pieceType As String) As String()
     Dim allLetters() As String
-    allLetters = GetSectionLetters(warehouse, section) ' Получает буквы, например [ПРИ, И, К, ..., Р] для нижней
+    allLetters = GetSectionLetters(warehouse, section) ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ [пїЅпїЅпїЅ, пїЅ, пїЅ, ..., пїЅ] пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 
     Dim isLowerSectionPassageFirst As Boolean
-    ' Проверяем, является ли первая буква в массиве проходом для нижней секции
-    isLowerSectionPassageFirst = (section = "LOWER" And Left(allLetters(0), 2) = "ПР")
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+    isLowerSectionPassageFirst = (section = "LOWER" And Left(allLetters(0), 2) = "пїЅпїЅ")
 
     Dim needsReversing As Boolean
-    needsReversing = False ' По умолчанию массив не переворачиваем
+    needsReversing = False ' пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
     Select Case pieceType
-        Case "WHOLE", "MEDIUM" ' Для целых и средних палет
-            ' Если это нижняя секция и буквы начинаются с прохода (ПРИ, ПРМ...),
-            ' то массив нужно перевернуть, чтобы начать со стены.
+        Case "WHOLE", "MEDIUM" ' пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+            ' пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅ, пїЅпїЅпїЅ...),
+            ' пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ.
             If isLowerSectionPassageFirst Then
                 needsReversing = True
-                ModuleLogger.LogDebug "?? WHOLE/LOWER: стена>проход (реверс): " & Join(ReverseArray(allLetters), ">")
+                ModuleLogger.LogDebug "?? WHOLE/LOWER: пїЅпїЅпїЅпїЅпїЅ>пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅ): " & Join(ReverseArray(allLetters), ">")
             Else
-                ModuleLogger.LogDebug "?? WHOLE/UPPER: стена>проход: " & Join(allLetters, ">")
+                ModuleLogger.LogDebug "?? WHOLE/UPPER: пїЅпїЅпїЅпїЅпїЅ>пїЅпїЅпїЅпїЅпїЅпїЅ: " & Join(allLetters, ">")
             End If
 
-        Case "PIECE" ' Для кусков
-            ' Если это верхняя секция (буквы НЕ начинаются с прохода),
-            ' то массив нужно перевернуть, чтобы начать с прохода.
+        Case "PIECE" ' пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+            ' пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ),
+            ' пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
             If Not isLowerSectionPassageFirst Then
                 needsReversing = True
-                ModuleLogger.LogDebug "?? PIECE/UPPER: проход>стена (реверс): " & Join(ReverseArray(allLetters), ">")
+                ModuleLogger.LogDebug "?? PIECE/UPPER: пїЅпїЅпїЅпїЅпїЅпїЅ>пїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅ): " & Join(ReverseArray(allLetters), ">")
             Else
-                ModuleLogger.LogDebug "?? PIECE/LOWER: проход>стена: " & Join(allLetters, ">")
+                ModuleLogger.LogDebug "?? PIECE/LOWER: пїЅпїЅпїЅпїЅпїЅпїЅ>пїЅпїЅпїЅпїЅпїЅ: " & Join(allLetters, ">")
             End If
     End Select
 
@@ -965,7 +965,7 @@ Private Function ReverseArray(arr() As String) As String()
 End Function
 
 Private Function FindWarehouseWithMaxProduct(ProductName As String) As String
-    ModuleLogger.LogMessage "?? Ищем ангар с максимальным количеством '" & ProductName & "'"
+    ModuleLogger.LogMessage "?? пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ '" & ProductName & "'"
     
     Dim maxQuantity As Double
     maxQuantity = 0
@@ -973,7 +973,7 @@ Private Function FindWarehouseWithMaxProduct(ProductName As String) As String
     Dim bestWarehouse As String
     bestWarehouse = ""
     
-    ' Проверяем все активные ангары
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     Dim warehouse As Integer
     For warehouse = 5 To 12
         If ModuleWarehouseCapacity.IsWarehouseActive(CStr(warehouse)) Then
@@ -986,14 +986,14 @@ Private Function FindWarehouseWithMaxProduct(ProductName As String) As String
                 bestWarehouse = CStr(warehouse)
             End If
             
-            ModuleLogger.LogDebug "Ангар " & warehouse & ": " & quantity & "л товара '" & ProductName & "'"
+            ModuleLogger.LogDebug "пїЅпїЅпїЅпїЅпїЅ " & warehouse & ": " & quantity & "пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ '" & ProductName & "'"
         End If
     Next warehouse
     
     If bestWarehouse <> "" Then
-        ModuleLogger.LogSuccess "?? Максимум в ангаре " & bestWarehouse & ": " & maxQuantity & "л"
+        ModuleLogger.LogSuccess "?? пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ " & bestWarehouse & ": " & maxQuantity & "пїЅ"
     Else
-        ModuleLogger.LogMessage "?? Товар не найден (новый товар)"
+        ModuleLogger.LogMessage "?? пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ)"
     End If
     
     FindWarehouseWithMaxProduct = bestWarehouse
@@ -1002,7 +1002,7 @@ End Function
 Private Function CalculateTotalProductInWarehouse(ProductName As String, warehouse As String) As Double
     On Error Resume Next
     
-    ' Получаем конфигурацию ангара
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     Dim config As ModuleTypes.WarehouseConfig
     config = ModuleConfig.GetWarehouseConfig(warehouse)
     
@@ -1017,7 +1017,7 @@ Private Function CalculateTotalProductInWarehouse(ProductName As String, warehou
     Dim totalQuantity As Double
     totalQuantity = 0
     
-    ' Ищем товар в заголовках и суммируем количество
+    ' пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     totalQuantity = totalQuantity + SumProductInSection(ws, ProductName, config.UpperHeaderRow, config.UpperDataStart, config.UpperDataEnd, "UPPER")
     totalQuantity = totalQuantity + SumProductInSection(ws, ProductName, config.LowerHeaderRow, config.LowerDataStart, config.LowerDataEnd, "LOWER")
     
@@ -1037,7 +1037,7 @@ Private Function SumProductInSection(ws As Worksheet, ProductName As String, hea
     Dim totalInSection As Double
     totalInSection = 0
     
-    ' Проходим по всем заголовкам в секции
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     Dim col As Long
     Dim lastCheckedCol As Long
     lastCheckedCol = 0
@@ -1052,9 +1052,9 @@ Private Function SumProductInSection(ws As Worksheet, ProductName As String, hea
             headerValue = GetCellValueSafe(headerCell)
             
             If headerValue <> "" Then
-                ' Проверяем совпадение товара
+                ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
                 If UCase(Trim(headerValue)) = UCase(Trim(ProductName)) Then
-                    ' Определяем диапазон заголовка
+                    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                     Dim headerStartCol As Long, headerEndCol As Long
                     If headerCell.MergeCells Then
                         headerStartCol = headerCell.MergeArea.Column
@@ -1066,7 +1066,7 @@ Private Function SumProductInSection(ws As Worksheet, ProductName As String, hea
                         lastCheckedCol = col
                     End If
                     
-                    ' Суммируем количество в соответствующих рядах
+                    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
                     Dim c As Long
                     For c = headerStartCol To headerEndCol Step 2
                         totalInSection = totalInSection + SumColumnInRange(ws, c, dataStart, dataEnd)
@@ -1100,7 +1100,7 @@ End Function
 Private Function FindProductInWarehouseHeaders(ProductName As String, warehouse As String) As FoundProductInfo
     Dim result As FoundProductInfo
     
-    ' Получаем конфигурацию ангара
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     Dim config As ModuleTypes.WarehouseConfig
     config = ModuleConfig.GetWarehouseConfig(warehouse)
     
@@ -1114,7 +1114,7 @@ Private Function FindProductInWarehouseHeaders(ProductName As String, warehouse 
         Exit Function
     End If
     
-    ' Ищем в верхней секции
+    ' пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     result = SearchProductInSectionHeaders(ws, ProductName, config.UpperHeaderRow, "UPPER")
     If result.startRow > 0 Then
         result.warehouse = warehouse
@@ -1122,7 +1122,7 @@ Private Function FindProductInWarehouseHeaders(ProductName As String, warehouse 
         Exit Function
     End If
     
-    ' Ищем в нижней секции
+    ' пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     result = SearchProductInSectionHeaders(ws, ProductName, config.LowerHeaderRow, "LOWER")
     If result.startRow > 0 Then
         result.warehouse = warehouse
@@ -1131,13 +1131,13 @@ Private Function FindProductInWarehouseHeaders(ProductName As String, warehouse 
     FindProductInWarehouseHeaders = result
 End Function
 
-' ===== ИСПРАВЛЕННАЯ ВЕРСИЯ: ИЩЕТ ВСЕ РЯДЫ С ТОВАРОМ, А НЕ ПЕРВЫЙ ПОПАВШИЙСЯ =====
+' ===== пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ =====
 Private Function SearchProductInSectionHeaders(ws As Worksheet, ProductName As String, _
                                               headerRow As Long, sectionName As String) As FoundProductInfo
     Dim result As FoundProductInfo
     result.section = sectionName
     result.headerRow = headerRow
-    result.availableRows = "" ' Инициализируем пустой строкой
+    result.availableRows = "" ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
     If headerRow = 0 Then
         SearchProductInSectionHeaders = result
@@ -1148,7 +1148,7 @@ Private Function SearchProductInSectionHeaders(ws As Worksheet, ProductName As S
     Dim lastCheckedCol As Long
     lastCheckedCol = 0
 
-    For col = 3 To 127 ' Проходим по всем возможным столбцам
+    For col = 3 To 127 ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         If col > lastCheckedCol Then
             Dim headerCell As Range
             Set headerCell = ws.Cells(headerRow, col)
@@ -1157,9 +1157,9 @@ Private Function SearchProductInSectionHeaders(ws As Worksheet, ProductName As S
             headerValue = GetCellValueSafe(headerCell)
 
             If headerValue <> "" Then
-                ' Проверяем совпадение товара (используем UCase для надежности)
+                ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ UCase пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
                 If UCase(Trim(headerValue)) = UCase(Trim(ProductName)) Then
-                    ' Определяем диапазон столбцов для этого заголовка
+                    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                     Dim headerStartCol As Long, headerEndCol As Long
                     If headerCell.MergeCells Then
                         headerStartCol = headerCell.MergeArea.Column
@@ -1169,12 +1169,12 @@ Private Function SearchProductInSectionHeaders(ws As Worksheet, ProductName As S
                         headerEndCol = col
                     End If
 
-                    ' Определяем номера рядов, которые покрывает этот заголовок
+                    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                     Dim startR As Integer, endR As Integer
                     startR = ((headerStartCol - 3) \ 2) + 1
-                    endR = ((headerEndCol - 2) \ 2) ' Было endR = ((headerEndCol - 3) \ 2) + 1, исправлено для корректного диапазона
+                    endR = ((headerEndCol - 2) \ 2) ' пїЅпїЅпїЅпїЅ endR = ((headerEndCol - 3) \ 2) + 1, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
-                    ' Добавляем все найденные ряды в общий список
+                    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
                     Dim r As Integer
                     For r = startR To endR
                         If result.availableRows <> "" Then
@@ -1183,13 +1183,13 @@ Private Function SearchProductInSectionHeaders(ws As Worksheet, ProductName As S
                         result.availableRows = result.availableRows & CStr(r)
                     Next r
                     
-                    ' Устанавливаем startRow, чтобы показать, что товар найден
+                    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ startRow, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
                     If result.startRow = 0 Then result.startRow = startR
                     
-                    ' НЕ ВЫХОДИМ ИЗ ЦИКЛА (Exit Function), а продолжаем поиск
+                    ' пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ (Exit Function), пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
                 End If
 
-                ' Пропускаем проверенные столбцы, чтобы не сканировать их заново
+                ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
                 If headerCell.MergeCells Then
                     lastCheckedCol = headerCell.MergeArea.Column + headerCell.MergeArea.columns.count - 1
                 Else
@@ -1199,29 +1199,29 @@ Private Function SearchProductInSectionHeaders(ws As Worksheet, ProductName As S
         End If
     Next col
 
-    ' Если ряды были найдены, сортируем их для логичного порядка обработки
-    ' Если ряды были найдены, сортируем их для логичного порядка обработки
+    ' пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    ' пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     If result.availableRows <> "" Then
         Dim rowsToSort() As String
         
-        ' 1. Сначала разбиваем строку на массив
+        ' 1. пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         rowsToSort = Split(result.availableRows, ",")
         
-        ' 2. Затем передаем этот массив в функцию сортировки
+        ' 2. пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         Dim sortedRows() As String
         sortedRows = SortStringArrayNumerically(rowsToSort)
         
-        ' 3. Собираем отсортированный массив обратно в строку
+        ' 3. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         result.availableRows = Join(sortedRows, ",")
         
-        ModuleLogger.LogDebug "?? Итоговый список рядов для '" & ProductName & "': " & result.availableRows
+        ModuleLogger.LogDebug "?? пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ '" & ProductName & "': " & result.availableRows
     End If
 
 
     SearchProductInSectionHeaders = result
 End Function
 
-' Вспомогательная функция для сортировки массива строк как чисел
+' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 Private Function SortStringArrayNumerically(arr() As String) As String()
     Dim i As Long, j As Long
     Dim temp As String
@@ -1273,48 +1273,48 @@ Private Function GetSectionLetters(warehouse As String, section As String) As St
     Select Case warehouse
         Case "5", "6"
             If section = "UPPER" Then
-                letters = Split("А,Б,В,Г,Д,Е,Ж,З,ПРЗ", ",")
+                letters = Split("пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅпїЅпїЅ", ",")
             Else
-                letters = Split("ПРИ,И,К,Л,М,Н,О,П,Р", ",")
+                letters = Split("пїЅпїЅпїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ", ",")
             End If
             
         Case "7", "8"
             If section = "UPPER" Then
-                letters = Split("А,Б,В,Г,Д,Е,ПРЕ", ",")
+                letters = Split("пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅпїЅпїЅ", ",")
             Else
-                letters = Split("ПРЖ,Ж,З,И,К,Л,М", ",")
+                letters = Split("пїЅпїЅпїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ", ",")
             End If
             
         Case "9"
             If section = "UPPER" Then
-                letters = Split("А,Б,В,Г,Д,Е,Ж,З,И,ПРИ", ",")
+                letters = Split("пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅпїЅпїЅ", ",")
             Else
-                letters = Split("ПРМ,М,Н,О,П,Р,С,Т,У,Ф", ",")
+                letters = Split("пїЅпїЅпїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ", ",")
             End If
             
         Case "10"
             If section = "UPPER" Then
-                letters = Split("А,Б,В,Г,Д,Е,Ж,З,И,ПРИ", ",")
+                letters = Split("пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅпїЅпїЅ", ",")
             Else
-                letters = Split("ПРК,К,Л,М,Н,О,П,Р,С,Т", ",")
+                letters = Split("пїЅпїЅпїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ", ",")
             End If
             
         Case "11"
             If section = "UPPER" Then
-                letters = Split("А,Б,В,Г,Д,Е,Ж,ПРЗ", ",")
+                letters = Split("пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅпїЅпїЅ", ",")
             Else
-                letters = Split("ПРИ,З,И,К,Л,М,Н,О", ",")
+                letters = Split("пїЅпїЅпїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ", ",")
             End If
             
         Case "12"
             If section = "UPPER" Then
-                letters = Split("А,Б,В,Г,Д,Е,Ж,ПРЖ", ",")
+                letters = Split("пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅпїЅпїЅ", ",")
             Else
-                letters = Split("ПРЗ,З,И,К,Л,М,Н,О", ",")
+                letters = Split("пїЅпїЅпїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ", ",")
             End If
             
         Case Else
-            letters = Split("А,Б,В,Г,Д,Е,Ж,З", ",")
+            letters = Split("пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ,пїЅ", ",")
     End Select
     
     GetSectionLetters = letters
@@ -1349,7 +1349,7 @@ Private Function GetNumericValueSafe(cell As Range) As Double
     On Error GoTo 0
 End Function
 
-' ===== ПАРСИНГ ВХОДНЫХ ДАННЫХ =====
+' ===== пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ =====
 Private Function ParseNewFormatInput(inputText As String) As PlacementInfo()
     Dim lines() As String
     lines = Split(inputText, vbNewLine)
@@ -1365,21 +1365,21 @@ Private Function ParseNewFormatInput(inputText As String) As PlacementInfo()
         Dim line As String
         line = Trim(lines(i))
         
-        If line <> "" And Not (InStr(LCase(line), "пример") > 0) Then
+        If line <> "" And Not (InStr(LCase(line), "пїЅпїЅпїЅпїЅпїЅпїЅ") > 0) Then
             Dim placement As PlacementInfo
             
-            ' Формат: "Товар - партия - количество (объем)"
+            ' пїЅпїЅпїЅпїЅпїЅпїЅ: "пїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅ)"
             If ParseNewFormatLine(line, placement) Then
-                ' Определяем категорию веса
+                ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
                 placement.weightCategory = DetermineWeightCategory(placement.quantity, placement.standardVolume)
                 
                 results(validCount) = placement
                 validCount = validCount + 1
                 
-                ModuleLogger.LogDebug "?? Распознано: " & placement.ProductName & " - " & _
+                ModuleLogger.LogDebug "?? пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: " & placement.ProductName & " - " & _
                                      placement.Batch & " - " & placement.quantity & " (" & _
                                      placement.standardVolume & ") - " & placement.pieceType & _
-                                     " - Вес: " & placement.weightCategory
+                                     " - пїЅпїЅпїЅ: " & placement.weightCategory
             End If
         End If
     Next i
@@ -1396,7 +1396,7 @@ End Function
 Private Function ParseNewFormatLine(line As String, ByRef placement As PlacementInfo) As Boolean
     On Error GoTo ErrorHandler
     
-    ' Парсим: "Лерашанс - пар13 - 600 (720)"
+    ' пїЅпїЅпїЅпїЅпїЅпїЅ: "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅ13 - 600 (720)"
     Dim parts() As String
     parts = Split(line, " - ")
     
@@ -1405,25 +1405,25 @@ Private Function ParseNewFormatLine(line As String, ByRef placement As Placement
         Exit Function
     End If
     
-    ' Получаем основные части
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
     placement.ProductName = Trim(parts(0))
     placement.Batch = Trim(parts(1))
     
-    ' Парсим количество и объем
+    ' пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ
     Dim lastPart As String
     lastPart = Trim(parts(2))
     
-    ' Ищем объем в скобках
+    ' пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     Dim openBracket As Integer, closeBracket As Integer
     openBracket = InStr(lastPart, "(")
     closeBracket = InStr(lastPart, ")")
     
     If openBracket > 0 And closeBracket > openBracket Then
-        ' Извлекаем количество
+        ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         Dim quantityStr As String
         quantityStr = Trim(Left(lastPart, openBracket - 1))
         
-        ' Извлекаем объем
+        ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
         Dim volumeStr As String
         volumeStr = Trim(Mid(lastPart, openBracket + 1, closeBracket - openBracket - 1))
         
@@ -1431,16 +1431,16 @@ Private Function ParseNewFormatLine(line As String, ByRef placement As Placement
             placement.quantity = CDbl(quantityStr)
             placement.standardVolume = CDbl(volumeStr)
             
-            ' Определяем тип товара
+            ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
             placement.pieceType = DeterminePieceType(placement.quantity, placement.standardVolume)
             
             ParseNewFormatLine = True
         End If
     Else
-        ' Формат без скобок
+        ' пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         If IsNumeric(lastPart) Then
             placement.quantity = CDbl(lastPart)
-            placement.standardVolume = 720 ' По умолчанию
+            placement.standardVolume = 720 ' пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             placement.pieceType = DeterminePieceType(placement.quantity, placement.standardVolume)
             
             ParseNewFormatLine = True
@@ -1463,27 +1463,27 @@ Private Function DeterminePieceType(quantity As Double, standardVolume As Double
     percentage = (quantity / standardVolume) * 100
     
     If percentage >= 90 Then
-        DeterminePieceType = "WHOLE"   ' Целая паллета
+        DeterminePieceType = "WHOLE"   ' пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     ElseIf percentage >= 60 Then
-        DeterminePieceType = "MEDIUM"  ' Средняя
+        DeterminePieceType = "MEDIUM"  ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     Else
-        DeterminePieceType = "PIECE"   ' Кусок
+        DeterminePieceType = "PIECE"   ' пїЅпїЅпїЅпїЅпїЅ
     End If
 End Function
 
-' ===== ГЕНЕРАЦИЯ ОТЧЕТА "ЯЧЕЙКА ЗА ЯЧЕЙКОЙ" (ИСПРАВЛЕНО НАЗВАНИЕ ФУНКЦИИ) =====
+' ===== пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ" (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ) =====
 Private Function GenerateCellByCellReport(placements() As PlacementInfo, successCount As Integer, activeCount As Integer) As String
     Dim report As String
-    report = "?? ОТЧЕТ РАЗМЕЩЕНИЯ 'ЯЧЕЙКА ЗА ЯЧЕЙКОЙ'" & vbNewLine
+    report = "?? пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ 'пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ'" & vbNewLine
     report = report & "===============================================" & vbNewLine
     report = report & "?? " & Format(Now, "dd.mm.yyyy hh:mm:ss") & vbNewLine
-    report = report & "?? Активные ангары: " & ModuleWarehouseCapacity.GetActiveWarehousesList() & vbNewLine & vbNewLine
+    report = report & "?? пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: " & ModuleWarehouseCapacity.GetActiveWarehousesList() & vbNewLine & vbNewLine
     
-    report = report & "? УСПЕШНО: " & successCount & vbNewLine
-    report = report & "? ОШИБКИ: " & (UBound(placements) + 1 - successCount) & vbNewLine & vbNewLine
+    report = report & "? пїЅпїЅпїЅпїЅпїЅпїЅпїЅ: " & successCount & vbNewLine
+    report = report & "? пїЅпїЅпїЅпїЅпїЅпїЅ: " & (UBound(placements) + 1 - successCount) & vbNewLine & vbNewLine
     
     If successCount > 0 Then
-        report = report & "?? РАЗМЕЩЕНИЯ ЯЧЕЙКА-ЗА-ЯЧЕЙКОЙ:" & vbNewLine
+        report = report & "?? пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ-пїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅ:" & vbNewLine
         report = report & "-----------------------------------------" & vbNewLine
         
         Dim i As Integer
@@ -1499,13 +1499,13 @@ Private Function GenerateCellByCellReport(placements() As PlacementInfo, success
     errorCount = (UBound(placements) + 1 - successCount)
     
     If errorCount > 0 Then
-        report = report & "? ОШИБКИ:" & vbNewLine
+        report = report & "? пїЅпїЅпїЅпїЅпїЅпїЅ:" & vbNewLine
         report = report & "-------------" & vbNewLine
         
         Dim j As Integer
         For j = 0 To UBound(placements)
             If Not placements(j).IsPlaced Then
-                report = report & "• " & placements(j).ProductName & " (" & _
+                report = report & "пїЅ " & placements(j).ProductName & " (" & _
                         placements(j).Batch & ") - " & _
                         placements(j).quantity & " - " & _
                         placements(j).ErrorMessage & vbNewLine
@@ -1514,56 +1514,56 @@ Private Function GenerateCellByCellReport(placements() As PlacementInfo, success
         report = report & vbNewLine
     End If
     
-    report = report & "?? ИСПРАВЛЕНИЯ:" & vbNewLine
+    report = report & "?? пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ:" & vbNewLine
     report = report & "=========================" & vbNewLine
-    report = report & "? ПРОВЕРКА КАЖДОЙ ЯЧЕЙКИ:" & vbNewLine
-    report = report & "   • А1>А2>А3>Б1>Б2>Б3 (правильно!)" & vbNewLine
-    report = report & "   • НЕ А1>Б1>В1>Г1 (было неправильно)" & vbNewLine & vbNewLine
+    report = report & "? пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ:" & vbNewLine
+    report = report & "   пїЅ пїЅ1>пїЅ2>пїЅ3>пїЅ1>пїЅ2>пїЅ3 (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ!)" & vbNewLine
+    report = report & "   пїЅ пїЅпїЅ пїЅ1>пїЅ1>пїЅ1>пїЅ1 (пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)" & vbNewLine & vbNewLine
     
-    report = report & "? УМНЫЕ ЛИМИТЫ ПО БУКВАМ:" & vbNewLine
-    report = report & "   • 720л: до 2 штук (1440/1500)" & vbNewLine
-    report = report & "   • 960л: только 1 штука (960/1000)" & vbNewLine
-    report = report & "   • 240кг: до 2 штук (480/500)" & vbNewLine & vbNewLine
+    report = report & "? пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ:" & vbNewLine
+    report = report & "   пїЅ 720пїЅ: пїЅпїЅ 2 пїЅпїЅпїЅпїЅ (1440/1500)" & vbNewLine
+    report = report & "   пїЅ 960пїЅ: пїЅпїЅпїЅпїЅпїЅпїЅ 1 пїЅпїЅпїЅпїЅпїЅ (960/1000)" & vbNewLine
+    report = report & "   пїЅ 240пїЅпїЅ: пїЅпїЅ 2 пїЅпїЅпїЅпїЅ (480/500)" & vbNewLine & vbNewLine
     
-    report = report & "?? ЦВЕТОВАЯ ИНДИКАЦИЯ:" & vbNewLine
-    report = report & "   • ?? Темно-зеленый - Ярус 1" & vbNewLine
-    report = report & "   • ?? Ярко-зеленый - Ярус 2" & vbNewLine
-    report = report & "   • ?? Желто-зеленый - Ярус 3" & vbNewLine
-    report = report & "   • ?? Синяя граница - Правильное размещение" & vbNewLine
-    report = report & "   • ?? Красная граница - Куски" & vbNewLine & vbNewLine
+    report = report & "?? пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ:" & vbNewLine
+    report = report & "   пїЅ ?? пїЅпїЅпїЅпїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅ 1" & vbNewLine
+    report = report & "   пїЅ ?? пїЅпїЅпїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅ 2" & vbNewLine
+    report = report & "   пїЅ ?? пїЅпїЅпїЅпїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅ 3" & vbNewLine
+    report = report & "   пїЅ ?? пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ" & vbNewLine
+    report = report & "   пїЅ ?? пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅпїЅ" & vbNewLine & vbNewLine
     
-    report = report & "? Система 'ячейка-за-ячейкой' работает правильно!"
+    report = report & "? пїЅпїЅпїЅпїЅпїЅпїЅпїЅ 'пїЅпїЅпїЅпїЅпїЅпїЅ-пїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ!"
     
     GenerateCellByCellReport = report
 End Function
 
-' ===== ТЕСТОВАЯ ФУНКЦИЯ =====
+' ===== пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ =====
 Public Sub TestCellByCell()
     Call ModuleLogger.InitializeLogger(True, ModuleLogger.LOG_LEVEL_DEBUG)
     
-    ModuleLogger.LogMessage "=== ?? ТЕСТ СИСТЕМЫ 'ЯЧЕЙКА ЗА ЯЧЕЙКОЙ' ==="
+    ModuleLogger.LogMessage "=== ?? пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ 'пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ' ==="
     
-    ' Тестовые данные: 3 паллеты по 720л
+    ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: 3 пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ 720пїЅ
     Dim testData As String
-    testData = "Лерашанс - пар01 - 720 (720)" & vbNewLine & _
-               "Лерашанс - пар02 - 720 (720)" & vbNewLine & _
-               "Лерашанс - пар03 - 720 (720)"
+    testData = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅ01 - 720 (720)" & vbNewLine & _
+               "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅ02 - 720 (720)" & vbNewLine & _
+               "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅ03 - 720 (720)"
     
-    ModuleLogger.LogMessage "Входные данные: 3?720л"
-    ModuleLogger.LogMessage "ОЖИДАЕМЫЙ РЕЗУЛЬТАТ:"
-    ModuleLogger.LogMessage "  • А-1: 720 (первая ячейка)"
-    ModuleLogger.LogMessage "  • А-2: 720 (вторая ячейка в той же букве А)"
-    ModuleLogger.LogMessage "  • Б-1: 720 (третья ячейка в новой букве Б, лимит А исчерпан)"
+    ModuleLogger.LogMessage "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: 3?720пїЅ"
+    ModuleLogger.LogMessage "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ:"
+    ModuleLogger.LogMessage "  пїЅ пїЅ-1: 720 (пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ)"
+    ModuleLogger.LogMessage "  пїЅ пїЅ-2: 720 (пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ)"
+    ModuleLogger.LogMessage "  пїЅ пїЅ-1: 720 (пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)"
     
     Dim result As String
     result = SmartPlaceProducts(testData)
     
-    MsgBox "?? ТЕСТ 'ЯЧЕЙКА ЗА ЯЧЕЙКОЙ' ЗАВЕРШЕН!" & vbNewLine & vbNewLine & _
-           "Проверьте результат:" & vbNewLine & _
-           "? А-1: 720 (темно-зеленый + синяя граница)" & vbNewLine & _
-           "? А-2: 720 (ярко-зеленый + синяя граница)" & vbNewLine & _
-           "? Б-1: 720 (темно-зеленый + синяя граница)" & vbNewLine & vbNewLine & _
-           "?? Результат: " & vbNewLine & result, _
-           vbInformation, "Система 'ячейка-за-ячейкой' работает!"
+    MsgBox "?? пїЅпїЅпїЅпїЅ 'пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ!" & vbNewLine & vbNewLine & _
+           "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ:" & vbNewLine & _
+           "? пїЅ-1: 720 (пїЅпїЅпїЅпїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅ + пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ)" & vbNewLine & _
+           "? пїЅ-2: 720 (пїЅпїЅпїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅ + пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ)" & vbNewLine & _
+           "? пїЅ-1: 720 (пїЅпїЅпїЅпїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅ + пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ)" & vbNewLine & vbNewLine & _
+           "?? пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: " & vbNewLine & result, _
+           vbInformation, "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ 'пїЅпїЅпїЅпїЅпїЅпїЅ-пїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ!"
 End Sub
 
