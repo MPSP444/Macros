@@ -79,6 +79,14 @@ def parse_int(s):
     return int(value) if value is not None else None
 
 
+def clean_line(s):
+    # Format-Table/многострочный вывод PowerShell плохо смотрится в одной ячейке таблицы —
+    # схлопываем переносы строк и лишние пробелы в компактную "; "-строку.
+    if not s:
+        return s
+    return re.sub(r"\s*[\r\n]+\s*", "; ", s.strip())
+
+
 class CheckWorker(QThread):
     progress = pyqtSignal(str, int)
     row_ready = pyqtSignal(str, str, str, str)  # категория, ожидается, обнаружено, статус
@@ -143,19 +151,18 @@ class CheckWorker(QThread):
 
     def check_disk(self):
         out = run_powershell(
-            "Get-CimInstance Win32_DiskDrive | "
-            "Select-Object Model, @{N='SizeGB';E={[math]::Round($_.Size/1GB,0)}} | "
-            "Format-Table -HideTableHeaders"
+            "(Get-CimInstance Win32_DiskDrive | ForEach-Object { "
+            "\"$($_.Model) (~$([math]::Round($_.Size/1GB,0)) ГБ)\" }) -join '; '"
         )
-        self.row_ready.emit("Диск (модель/объём)", f"~{EXPECTED_SPECS['ssd_gb']} ГБ", out or "не определено", "ИНФО")
+        self.row_ready.emit("Диск (модель/объём)", f"~{EXPECTED_SPECS['ssd_gb']} ГБ",
+                             clean_line(out) or "не определено", "ИНФО")
 
     def check_disk_type(self):
         out = run_powershell(
-            "Get-PhysicalDisk | Select-Object FriendlyName, BusType | "
-            "Format-Table -HideTableHeaders | Out-String -Width 300"
+            "(Get-PhysicalDisk | ForEach-Object { \"$($_.FriendlyName): $($_.BusType)\" }) -join '; '"
         )
         expected = EXPECTED_SPECS["disk_bus_type"]
-        text = (out or "").strip()
+        text = clean_line(out) or ""
         lowered = text.lower()
         if "sata" in lowered:
             status = "НЕСОВПАДЕНИЕ"
@@ -226,12 +233,11 @@ class CheckWorker(QThread):
 
     def check_display(self):
         out = run_powershell(
-            "Get-CimInstance Win32_VideoController | "
-            "Select-Object CurrentHorizontalResolution, CurrentVerticalResolution | "
-            "Format-Table -HideTableHeaders"
+            "(Get-CimInstance Win32_VideoController | Select-Object -First 1 | ForEach-Object { "
+            "\"$($_.CurrentHorizontalResolution) x $($_.CurrentVerticalResolution)\" })"
         )
         expected_res = f"{EXPECTED_SPECS['screen_resolution'][0]} x {EXPECTED_SPECS['screen_resolution'][1]}"
-        self.row_ready.emit("Разрешение экрана", expected_res, out or "не определено", "ИНФО")
+        self.row_ready.emit("Разрешение экрана", expected_res, clean_line(out) or "не определено", "ИНФО")
 
         refresh_out = run_powershell("(Get-CimInstance Win32_VideoController | Select-Object -First 1).MaxRefreshRate")
         expected_hz = EXPECTED_SPECS["refresh_rate_hz"]
@@ -361,7 +367,13 @@ class MainWindow(QMainWindow):
 
         self.table = QTableWidget(0, 4)
         self.table.setHorizontalHeaderLabels(["Параметр", "Ожидается", "Обнаружено", "Статус"])
-        self.table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
+        self.table.setWordWrap(True)
+        header = self.table.horizontalHeader()
+        header.setSectionResizeMode(0, QHeaderView.ResizeMode.ResizeToContents)
+        header.setSectionResizeMode(1, QHeaderView.ResizeMode.Interactive)
+        header.setSectionResizeMode(2, QHeaderView.ResizeMode.Stretch)
+        header.setSectionResizeMode(3, QHeaderView.ResizeMode.ResizeToContents)
+        self.table.setColumnWidth(1, 220)
         layout.addWidget(self.table)
 
         self.summary_label = QLabel("")
@@ -397,15 +409,22 @@ class MainWindow(QMainWindow):
     def on_row_ready(self, category, expected, actual, status):
         row = self.table.rowCount()
         self.table.insertRow(row)
-        self.table.setItem(row, 0, QTableWidgetItem(category))
-        self.table.setItem(row, 1, QTableWidgetItem(expected))
-        self.table.setItem(row, 2, QTableWidgetItem(actual))
+        cat_item = QTableWidgetItem(category)
+        exp_item = QTableWidgetItem(expected)
+        act_item = QTableWidgetItem(actual)
+        for it, text in ((cat_item, category), (exp_item, expected), (act_item, actual)):
+            it.setToolTip(text)
+        self.table.setItem(row, 0, cat_item)
+        self.table.setItem(row, 1, exp_item)
+        self.table.setItem(row, 2, act_item)
         status_item = QTableWidgetItem(status)
+        status_item.setToolTip(status)
 
         color_hex = STATUS_COLORS.get(status)
         if color_hex:
             status_item.setBackground(QColor(color_hex))
         self.table.setItem(row, 3, status_item)
+        self.table.resizeRowToContents(row)
 
         self.field_status[category] = status
 
